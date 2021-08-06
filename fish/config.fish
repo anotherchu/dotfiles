@@ -4,8 +4,9 @@ abbr p "sudo pacman"
 abbr y "yay"
 
 source $HOME/work/.config/fish/abbr.fish
-alias cat="bat" 
+alias cat="bat"
 alias ls="exa -l"
+alias vim="nvim"
 
 set fzf_preview_dir_cmd exa --all --color=always
 set fzf_fd_opts -uu -i -L --exclude=.git
