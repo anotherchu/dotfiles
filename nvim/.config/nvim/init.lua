@@ -139,9 +139,13 @@ require 'nvim-treesitter.configs'.setup{
 
 -- LSP
 local lsp = require('lspconfig')
+local ansiblels_path = '/home/thiago/.lsp/ansible-language-server/out/server/src/'
 require('lspfuzzy').setup {}
 lsp.pyright.setup{}
 lsp.tsserver.setup{}
+lsp.ansiblels.setup{
+    cmd = {'node',ansiblels_path..'server.js', '--stdio'}
+}
 cmd 'au FileType java lua require(\'jdtls\').start_or_attach({cmd = {\'launch_jdt.sh\'}})'
 require('lspsaga').init_lsp_saga{
     border_style = "round",
