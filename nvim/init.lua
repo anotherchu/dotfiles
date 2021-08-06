@@ -11,32 +11,38 @@ local function map(mode,lhs,rhs,opts)
 end
 
 cmd 'packadd paq-nvim'
-local paq = require('paq-nvim').paq
+local paq = require('paq-nvim')
+paq{
+    'savq/paq-nvim';
+    'ntk148v/vim-horizon';
+    'ervandew/supertab';
+    'nvim-lua/popup.nvim';
+    'nvim-lua/plenary.nvim';
+    'nvim-telescope/telescope.nvim';
+    'hrsh7th/vim-vsnip';
+    'hrsh7th/vim-vsnip-integ';
+    'rafamadriz/friendly-snippets';
+    'tpope/vim-surround';
+    'hoob3rt/lualine.nvim';
+    'windwp/nvim-autopairs';
+    'junegunn/fzf';
+    'junegunn/fzf.vim';
+    {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'};
+    'iamcco/markdown-preview.nvim';
+    {'mg979/vim-visual-multi', branch = 'master'};
+    'terrortylor/nvim-comment';
 
-paq{'ntk148v/vim-horizon'}
-paq{'ervandew/supertab'}
-paq{'nvim-lua/popup.nvim'}
-paq{'nvim-lua/plenary.nvim'}
-paq{'nvim-telescope/telescope.nvim'}
-paq{'hrsh7th/vim-vsnip'}
-paq{'hrsh7th/vim-vsnip-integ'}
-paq{'rafamadriz/friendly-snippets'}
-paq{'tpope/vim-surround'}
-paq{'hoob3rt/lualine.nvim'}
-paq{'windwp/nvim-autopairs'}
-paq{'junegunn/fzf'}
-paq{'junegunn/fzf.vim'}
-paq{'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+    --LSP Plugins and Autocompletion
+    'neovim/nvim-lspconfig';
+    'ojroques/nvim-lspfuzzy';
+    'hrsh7th/nvim-compe';
+    'glepnir/lspsaga.nvim';
+    'kyazdani42/nvim-web-devicons';
+    --  Java
+    -- !!! For Java LSP, nvim-jdtls requires eclipse.jdt.ls !!!
+    'mfussenegger/nvim-jdtls';
+}
 
---LSP Plugins and Autocompletion
-paq{'neovim/nvim-lspconfig'}
-paq{'ojroques/nvim-lspfuzzy'}
-paq{'hrsh7th/nvim-compe'}
-paq{'glepnir/lspsaga.nvim'}
-paq{'kyazdani42/nvim-web-devicons'}
---  Java
--- !!! For Java LSP, nvim-jdtls requires eclipse.jdt.ls !!!
-paq{'mfussenegger/nvim-jdtls'}
 
 -- Line numbers
 opt.relativenumber = true
@@ -45,16 +51,19 @@ opt.relativenumber = true
 -- closing modified files
 opt.hidden = true
 opt.confirm = true
-
+--
 -- Ignore case but smartcase when there's a capital letter on search term
 opt.ignorecase = true
 opt.smartcase = true
 
+
 -- Tabs
 opt.expandtab = true
 opt.smarttab = true
+opt.softtabstop=4
 opt.shiftwidth=4
 opt.tabstop=4
+
 
 --Statusline
 require('lualine').setup{
@@ -83,26 +92,29 @@ require('lualine').setup{
 }
 cmd 'set noshowmode'
 
+
 -- colorscheme settings
 opt.termguicolors = true
 cmd 'colorscheme horizon'
+
 
 -- Manage buffers
 map('','<Leader>h',':bprevious<cr>')
 map('','<Leader>l',':bnext<cr>')
 map('','<Leader>bd',':bd<cr>gT')
-map('','<Leader><cr>',':noh<cr>',{silent=true})
-map('','<Leader>cd',':cd %:p:h<cr>:pwd<cr>')
-
--- Make 0 go to first non whitespace character
-map('','0','^')
-
--- Remove Windows ^M
-map('','<Leader>m','mmHmt:%s/<C-V><cr>//ge<cr>\'tzt\'m')
 
 
--- Return to last edit position
-cmd 'au BufReadPost * if line("\'\\"") > 1 && line("\'\\"") <= line("$") | exe "normal! g\'\\"" | endif'
+-- Misc bindings
+map('','0','^') -- Make 0 go to first non whitespace character
+map('','<Leader>m','mmHmt:%s/<C-V><cr>//ge<cr>\'tzt\'m') -- Remove Windows' ^M from buffer
+map('','<Leader><cr>',':noh<cr>',{silent=true}) -- Remove hightlights
+map('','<Leader>cd',':cd %:p:h<cr>:pwd<cr>') -- Change pwd to current buffer path
+-- Move lines up or down
+map('n','<C-j>',':m .+1<cr>==')
+map('n','<C-k>',':m .-2<cr>==')
+map('i','<C-j>','<Esc>:m .+1<cr>==gi')
+map('i','<C-k>','<Esc>:m .-2<cr>==gi')
+
 
 -- telescope.nvim
 map('n','<C-f>','<cmd>Telescope find_files<cr>')
@@ -126,7 +138,6 @@ require 'nvim-treesitter.configs'.setup{
 -- LSP
 local lsp = require('lspconfig')
 require('lspfuzzy').setup {}
---    Load servers
 lsp.pyright.setup{}
 lsp.tsserver.setup{}
 cmd 'au FileType java lua require(\'jdtls\').start_or_attach({cmd = {\'launch_jdt.sh\'}})'
@@ -135,7 +146,7 @@ require('lspsaga').init_lsp_saga{
 }
 map('n','K',':Lspsaga hover_doc<cr>',{silent = true})
 map('n','gh',':Lspsaga lsp_finder<cr>',{silent = true})
-map('i','<C-k>', '<cmd>Lspsaga signature_help<cr>',{silent = true})
+map('i','<C-a>', '<cmd>Lspsaga signature_help<cr>',{silent = true})
 
 --Autocompletion
 opt.completeopt = "menuone,noselect"
@@ -179,15 +190,18 @@ map('i','<cr>','compe#confirm("<cr>")',{silent=true,expr=true})
 --Autopairs
 require('nvim-autopairs').setup{}
 
--- Move lines up or down
-map('n','<C-j>',':m .+1<CR>==')
-map('n','<C-k>',':m .-2<CR>==')
-map('i','<C-j>','<Esc>:m .+1<CR>==gi')
-map('i','<C-k>','<Esc>:m .-2<CR>==gi')
+--nvim-comment
+require('nvim_comment').setup{}
 
+--vim-visual-multi
+cmd 'let g:VM_maps = {}'
+cmd 'let g:VM_maps["Find Under"] = "<C-s>"'
+cmd 'let g:VM_maps["Find Subword Under"] = "<C-s>"'
 -- Fast edit and reload of this config file
 map('','<leader>e',':e! ~/.config/nvim/init.lua<cr>')
 cmd 'au! bufwritepost ~/.config/nvim/init.lua source ~/.config/nvim/init.lua'
 
--- Autoremove trailing whitespace
-cmd 'autocmd BufWritePre * :%s/\\s\\+$//e'
+cmd 'autocmd BufWritePre * :%s/\\s\\+$//e' -- Autoremove trailing whitespaces
+
+-- Return to last edit position
+cmd 'au BufReadPost * if line("\'\\"") > 1 && line("\'\\"") <= line("$") | exe "normal! g\'\\"" | endif'
