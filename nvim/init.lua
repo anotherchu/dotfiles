@@ -1,5 +1,6 @@
 vim.g.mapleader = ","
 local cmd = vim.cmd
+local nexec = vim.api.nvim_exec
 local fn = vim.fn
 local g = vim.g
 local opt = vim.opt
@@ -31,6 +32,7 @@ paq{
     'iamcco/markdown-preview.nvim';
     {'mg979/vim-visual-multi', branch = 'master'};
     'terrortylor/nvim-comment';
+    'mhartington/formatter.nvim';
 
     --LSP Plugins and Autocompletion
     'neovim/nvim-lspconfig';
@@ -151,37 +153,37 @@ map('i','<C-a>', '<cmd>Lspsaga signature_help<cr>',{silent = true})
 --Autocompletion
 opt.completeopt = "menuone,noselect"
 require('compe').setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  resolve_timeout = 800;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = {
-    border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
-    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
-    max_width = 120,
-    min_width = 60,
-    max_height = math.floor(vim.o.lines * 0.3),
-    min_height = 1,
-  };
+    enabled = true;
+    autocomplete = true;
+    debug = false;
+    min_length = 1;
+    preselect = 'enable';
+    throttle_time = 80;
+    source_timeout = 200;
+    resolve_timeout = 800;
+    incomplete_delay = 400;
+    max_abbr_width = 100;
+    max_kind_width = 100;
+    max_menu_width = 100;
+    documentation = {
+        border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+        winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+        max_width = 120,
+        min_width = 60,
+        max_height = math.floor(vim.o.lines * 0.3),
+        min_height = 1,
+    };
 
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = true;
-    ultisnips = true;
-    luasnip = true;
-  };
+    source = {
+        path = true;
+        buffer = true;
+        calc = true;
+        nvim_lsp = true;
+        nvim_lua = true;
+        vsnip = true;
+        ultisnips = true;
+        luasnip = true;
+    };
 }
 
 map('i','<C-Space>','compe#complete()',{silent=true,expr=true})
@@ -193,6 +195,26 @@ require('nvim-autopairs').setup{}
 --nvim-comment
 require('nvim_comment').setup{}
 
+--formatter
+require('formatter').setup{
+    filetype = {
+        html = {
+            function()
+                return{
+                    exe = "prettier",
+                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+                    stdin = true
+                }
+            end
+        }
+    }
+}
+map('n','<Leader>f',':Format<CR>',{silent = true})
+nexec([[
+augroup FormatAutogroup
+  au!
+  au BufWritePost *.html FormatWrite
+]],true)
 --vim-visual-multi
 cmd 'let g:VM_maps = {}'
 cmd 'let g:VM_maps["Find Under"] = "<C-s>"'
@@ -201,7 +223,12 @@ cmd 'let g:VM_maps["Find Subword Under"] = "<C-s>"'
 map('','<leader>e',':e! ~/.config/nvim/init.lua<cr>')
 cmd 'au! bufwritepost ~/.config/nvim/init.lua source ~/.config/nvim/init.lua'
 
-cmd 'autocmd BufWritePre * :%s/\\s\\+$//e' -- Autoremove trailing whitespaces
+cmd 'au BufWritePre * :%s/\\s\\+$//e' -- Autoremove trailing whitespaces
 
 -- Return to last edit position
 cmd 'au BufReadPost * if line("\'\\"") > 1 && line("\'\\"") <= line("$") | exe "normal! g\'\\"" | endif'
+
+-- Per filetype indent size
+cmd 'au FileType html setlocal sw=2 ts=2 sts=2'
+cmd 'au FileType java setlocal sw=2 ts=2 sts=2'
+cmd 'au FileType typescript setlocal sw=2 ts=2 sts=2'
