@@ -6,7 +6,9 @@ Install the [paq package manager](https://github.com/savq/paq-nvim)
 
 Copy `init.lua` into `~/.config/nvim/`
 
-Comment out LSP lines per your needs. Or install the servers:
+Open `nvim` and run `:PaqInstall`
+
+LSPs need servers to work:
 
 - [microsoft/pyright](https://github.com/microsoft/pyright)
 - [mfussenegger/nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls)
