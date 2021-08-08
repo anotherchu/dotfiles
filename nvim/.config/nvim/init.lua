@@ -111,6 +111,7 @@ map('','0','^') -- Make 0 go to first non whitespace character
 map('','<Leader>m','mmHmt:%s/<C-V><cr>//ge<cr>\'tzt\'m') -- Remove Windows' ^M from buffer
 map('','<Leader><cr>',':noh<cr>',{silent=true}) -- Remove hightlights
 map('','<Leader>cd',':cd %:p:h<cr>:pwd<cr>') -- Change pwd to current buffer path
+
 -- Move lines up or down
 map('n','<C-j>',':m .+1<cr>==')
 map('n','<C-k>',':m .-2<cr>==')
@@ -146,10 +147,21 @@ lsp.tsserver.setup{}
 lsp.ansiblels.setup{
     cmd = {'node',ansiblels_path..'server.js', '--stdio'}
 }
-cmd 'au FileType java lua require(\'jdtls\').start_or_attach({cmd = {\'launch_jdt.sh\'}})'
+
+nexec([[
+    augroup jdtls_lsp
+        au!
+        au FileType java lua require('jdtls_setup').setup()
+    augroup END
+]],true)
+
+map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>',{silent = true})
+map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {silent = true})
+
 require('lspsaga').init_lsp_saga{
     border_style = "round",
 }
+map('n','\\ca', '<cmd>lua require("lspsaga.codeaction").code_action()<cr>',{silent = true})
 map('n','K',':Lspsaga hover_doc<cr>',{silent = true})
 map('n','gh',':Lspsaga lsp_finder<cr>',{silent = true})
 map('i','<C-a>', '<cmd>Lspsaga signature_help<cr>',{silent = true})
@@ -191,7 +203,8 @@ require('compe').setup {
 }
 
 map('i','<C-Space>','compe#complete()',{silent=true,expr=true})
-map('i','<cr>','compe#confirm("<cr>")',{silent=true,expr=true})
+map('i','<cr>','compe#confirm(luaeval("require \'nvim-autopairs\'.autopairs_cr()"))',{silent=true,expr=true})
+map('i','<C-e','compe#close("<C-e")',{silenttrue,expr=true})
 
 --Autopairs
 require('nvim-autopairs').setup{}
@@ -210,6 +223,17 @@ require('formatter').setup{
                     stdin = true
                 }
             end
+        },
+        java = {
+            function()
+                local args = {}
+                return{
+                    exe = "java",
+                    args = {'--add-exports', 'jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED', '-jar', os.getenv('HOME') .. '/.local/jars/google-java-format-1.10.0-all-deps.jar', vim.api.nvim_buf_get_name(0)},
+                    stdin = true
+
+                }
+            end
         }
     }
 }
@@ -218,8 +242,11 @@ nexec([[
 augroup FormatAutogroup
   au!
   au BufWritePost *.html FormatWrite
+  au BufWritePost *.java FormatWrite
 ]],true)
+
 --vim-visual-multi
+cmd 'let g:VM_show_warnings = 0'
 cmd 'let g:VM_maps = {}'
 cmd 'let g:VM_maps["Find Under"] = "<C-s>"'
 cmd 'let g:VM_maps["Find Subword Under"] = "<C-s>"'
