@@ -40,8 +40,6 @@ paq{
     'hrsh7th/nvim-compe';
     'glepnir/lspsaga.nvim';
     'kyazdani42/nvim-web-devicons';
-    --  Java
-    -- !!! For Java LSP, nvim-jdtls requires eclipse.jdt.ls !!!
     'mfussenegger/nvim-jdtls';
 }
 
@@ -53,7 +51,13 @@ opt.relativenumber = true
 -- closing modified files
 opt.hidden = true
 opt.confirm = true
---
+
+opt.swapfile = false
+opt.backup = false
+opt.undodir = '~/.vim/undodir'
+opt.undofile = true
+
+
 -- Ignore case but smartcase when there's a capital letter on search term
 opt.ignorecase = true
 opt.smartcase = true
@@ -66,8 +70,16 @@ opt.softtabstop=4
 opt.shiftwidth=4
 opt.tabstop=4
 
+-- Scrolls when 8 columns away from edge
+opt.scrolloff = 10
+
+opt.wrap = false
+
+opt.signcolumn = 'yes'
 
 --Statusline
+opt.cmdheight = 2
+
 require('lualine').setup{
     options = {
         icons_enabled = true,
@@ -92,7 +104,7 @@ require('lualine').setup{
     tabline = {},
     extensions = {}
 }
-cmd 'set noshowmode'
+opt.showmode = false
 
 
 -- colorscheme settings
