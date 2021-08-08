@@ -4,7 +4,7 @@ Install nvim
 
 Install the [paq package manager](https://github.com/savq/paq-nvim)
 
-Copy `init.lua` into `~/.config/nvim/`
+Clone and copy all files into `~/.config/nvim/`
 
 Open `nvim` and run `:PaqInstall`
 
@@ -17,3 +17,5 @@ LSPs need servers to work:
 Also install formatters:
 
 - [prettier](https://prettier.io/docs/en/install.html)
+- [google-java-format](https://github.com/google/google-java-format)
+
