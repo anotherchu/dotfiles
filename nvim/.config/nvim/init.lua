@@ -278,10 +278,11 @@ require('formatter').setup{
 
 map('n','<Leader>f',':Format<CR>',{silent = true})
 nexec([[
-augroup FormatAutogroup
-  au!
-  au BufWritePost *.html FormatWrite
-  au BufWritePost *.java FormatWrite
+    augroup FormatAutogroup
+        au!
+        au BufWritePost *.html FormatWrite
+        au BufWritePost *.java FormatWrite
+    augroup END
 ]],true)
 
 -- vim-visual-multi
@@ -291,6 +292,7 @@ cmd 'let g:VM_maps["Find Under"] = "<C-s>"'
 cmd 'let g:VM_maps["Find Subword Under"] = "<C-s>"'
 -- Fast edit and reload of this config file
 map('','<leader>e',':e! ' .. home_dir .. '/.config/nvim/init.lua<cr>')
+cmd 'au! BufWritePost $HOME/.dotfiles/nvim/.config/nvim/init.lua source %'
 
 cmd 'au BufWritePre * :%s/\\s\\+$//e' -- Autoremove trailing whitespaces
 
