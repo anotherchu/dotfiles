@@ -4,6 +4,7 @@ local nexec = vim.api.nvim_exec
 local fn = vim.fn
 local g = vim.g
 local opt = vim.opt
+local home_dir = os.getenv('HOME')
 
 local function map(mode,lhs,rhs,opts)
   local options = {noremap = true}
@@ -20,6 +21,7 @@ paq{
     'nvim-lua/popup.nvim';
     'nvim-lua/plenary.nvim';
     'nvim-telescope/telescope.nvim';
+    {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'};
     'hrsh7th/vim-vsnip';
     'hrsh7th/vim-vsnip-integ';
     'rafamadriz/friendly-snippets';
@@ -34,7 +36,7 @@ paq{
     'terrortylor/nvim-comment';
     'mhartington/formatter.nvim';
 
-    --LSP Plugins and Autocompletion
+    -- LSP Plugins and Autocompletion
     'neovim/nvim-lspconfig';
     'ojroques/nvim-lspfuzzy';
     'hrsh7th/nvim-compe';
@@ -54,7 +56,7 @@ opt.confirm = true
 
 opt.swapfile = false
 opt.backup = false
-opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
+opt.undodir = home_dir .. '/.vim/undodir'
 opt.undofile = true
 
 
@@ -77,7 +79,7 @@ opt.wrap = false
 
 opt.signcolumn = 'yes'
 
---Statusline
+-- Statusline
 opt.cmdheight = 2
 
 require('lualine').setup{
@@ -132,12 +134,28 @@ map('i','<C-k>','<Esc>:m .-2<cr>==gi')
 
 
 -- telescope.nvim
+
 map('n','<C-f>','<cmd>Telescope find_files<cr>')
 map('n','<Leader>o','<cmd>Telescope buffers<cr>')
 map('n','<Leader>r','<cmd>Telescope live_grep<cr>')
 map('n','<Leader>t','<cmd>Telescope help_tags<cr>')
 
---Treesitter
+require('telescope').setup{
+    extensions = {
+        fzf = {
+            fuzzy = true,
+            override_generic_sorter = false,
+            override_file_server = true,
+            case_mode = 'smart_case'
+        }
+    },
+    defaults = {
+        file_ignore_patterns = {"node/no.*"}
+    }
+}
+require('telescope').load_extension('fzf')
+
+-- Treesitter
 require 'nvim-treesitter.configs'.setup{
     hightlight = {
         enable = true,
@@ -185,7 +203,7 @@ map('n','K',':Lspsaga hover_doc<cr>',{silent = true})
 map('n','gh',':Lspsaga lsp_finder<cr>',{silent = true})
 map('i','<C-a>', '<cmd>Lspsaga signature_help<cr>',{silent = true})
 
---Autocompletion
+-- Autocompletion
 opt.completeopt = "menuone,noselect"
 require('compe').setup {
     enabled = true;
@@ -225,13 +243,13 @@ map('i','<C-Space>','compe#complete()',{silent=true,expr=true})
 map('i','<cr>','compe#confirm(luaeval("require \'nvim-autopairs\'.autopairs_cr()"))',{silent=true,expr=true})
 map('i','<C-e','compe#close("<C-e")',{silenttrue,expr=true})
 
---Autopairs
+-- Autopairs
 require('nvim-autopairs').setup{}
 
---nvim-comment
+-- nvim-comment
 require('nvim_comment').setup{}
 
---formatter
+-- formatter
 require('formatter').setup{
     filetype = {
         html = {
@@ -248,7 +266,7 @@ require('formatter').setup{
                 local args = {}
                 return{
                     exe = "java",
-                    args = {'--add-exports', 'jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED', '-jar', os.getenv('HOME') .. '/.local/jars/google-java-format-1.10.0-all-deps.jar', vim.api.nvim_buf_get_name(0)},
+                    args = {'--add-exports', 'jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED', '-jar', home_dir .. '/.local/jars/google-java-format-1.10.0-all-deps.jar', vim.api.nvim_buf_get_name(0)},
                     stdin = true
 
                 }
@@ -256,6 +274,7 @@ require('formatter').setup{
         }
     }
 }
+
 map('n','<Leader>f',':Format<CR>',{silent = true})
 nexec([[
 augroup FormatAutogroup
@@ -264,13 +283,13 @@ augroup FormatAutogroup
   au BufWritePost *.java FormatWrite
 ]],true)
 
---vim-visual-multi
+-- vim-visual-multi
 cmd 'let g:VM_show_warnings = 0'
 cmd 'let g:VM_maps = {}'
 cmd 'let g:VM_maps["Find Under"] = "<C-s>"'
 cmd 'let g:VM_maps["Find Subword Under"] = "<C-s>"'
 -- Fast edit and reload of this config file
-map('','<leader>e',':e! ' .. os.getenv('HOME') .. '/.config/nvim/init.lua<cr>')
+map('','<leader>e',':e! ' .. home_dir .. '/.config/nvim/init.lua<cr>')
 cmd 'au! bufwritepost ~/.config/nvim/init.lua source ~/.config/nvim/init.lua'
 
 cmd 'au BufWritePre * :%s/\\s\\+$//e' -- Autoremove trailing whitespaces
