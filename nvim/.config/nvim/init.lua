@@ -54,7 +54,7 @@ opt.confirm = true
 
 opt.swapfile = false
 opt.backup = false
-opt.undodir = '~/.vim/undodir'
+opt.undodir = os.getenv('HOME') .. '/.vim/undodir'
 opt.undofile = true
 
 
@@ -119,7 +119,7 @@ map('','<Leader>bd',':bd<cr>gT')
 
 
 -- Misc bindings
-map('','0','^') -- Make 0 go to first non whitespace character
+-- map('','0','^') -- Make 0 go to first non whitespace character
 map('','<Leader>m','mmHmt:%s/<C-V><cr>//ge<cr>\'tzt\'m') -- Remove Windows' ^M from buffer
 map('','<Leader><cr>',':noh<cr>',{silent=true}) -- Remove hightlights
 map('','<Leader>cd',':cd %:p:h<cr>:pwd<cr>') -- Change pwd to current buffer path
@@ -164,6 +164,13 @@ nexec([[
     augroup jdtls_lsp
         au!
         au FileType java lua require('jdtls_setup').setup()
+    augroup END
+]],true)
+
+nexec([[
+    augroup luals_lsp
+        au!
+        au FileType lua lua require('luals_setup').setup()
     augroup END
 ]],true)
 
@@ -263,7 +270,7 @@ cmd 'let g:VM_maps = {}'
 cmd 'let g:VM_maps["Find Under"] = "<C-s>"'
 cmd 'let g:VM_maps["Find Subword Under"] = "<C-s>"'
 -- Fast edit and reload of this config file
-map('','<leader>e',':e! ~/.config/nvim/init.lua<cr>')
+map('','<leader>e',':e! ' .. os.getenv('HOME') .. '/.config/nvim/init.lua<cr>')
 cmd 'au! bufwritepost ~/.config/nvim/init.lua source ~/.config/nvim/init.lua'
 
 cmd 'au BufWritePre * :%s/\\s\\+$//e' -- Autoremove trailing whitespaces
