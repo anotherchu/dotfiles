@@ -47,6 +47,7 @@ paq{
 
 
 -- Line numbers
+opt.number = true
 opt.relativenumber = true
 
 -- Keep changes on file when changing buffers and ask for confirmation when
@@ -290,7 +291,6 @@ cmd 'let g:VM_maps["Find Under"] = "<C-s>"'
 cmd 'let g:VM_maps["Find Subword Under"] = "<C-s>"'
 -- Fast edit and reload of this config file
 map('','<leader>e',':e! ' .. home_dir .. '/.config/nvim/init.lua<cr>')
-cmd 'au! bufwritepost ~/.config/nvim/init.lua source ~/.config/nvim/init.lua'
 
 cmd 'au BufWritePre * :%s/\\s\\+$//e' -- Autoremove trailing whitespaces
 
