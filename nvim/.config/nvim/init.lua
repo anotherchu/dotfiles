@@ -1,3 +1,9 @@
+vim.api.nvim_exec([[
+if &shell =~# 'fish$'
+    set shell=sh
+endif
+]],true)
+
 vim.g.mapleader = ","
 local cmd = vim.cmd
 local nexec = vim.api.nvim_exec
@@ -35,6 +41,9 @@ paq{
     {'mg979/vim-visual-multi', branch = 'master'};
     'terrortylor/nvim-comment';
     'mhartington/formatter.nvim';
+    'rafamadriz/neon';
+    'khaveesh/vim-fish-syntax';
+    'folke/tokyonight.nvim';
 
     -- LSP Plugins and Autocompletion
     'neovim/nvim-lspconfig';
@@ -45,6 +54,11 @@ paq{
     'mfussenegger/nvim-jdtls';
 }
 
+-- colorscheme settings
+opt.termguicolors = true
+vim.g.tokyonight_style = "night"
+vim.g.neon_bold = true
+cmd 'colorscheme tokyonight'
 
 -- Line numbers
 opt.number = true
@@ -73,6 +87,9 @@ opt.softtabstop=4
 opt.shiftwidth=4
 opt.tabstop=4
 
+-- Supertab
+vim.g.SuperTabDefaultCompletionType = '<C-n>'
+
 -- Scrolls when 8 columns away from edge
 opt.scrolloff = 10
 
@@ -86,7 +103,7 @@ opt.cmdheight = 2
 require('lualine').setup{
     options = {
         icons_enabled = true,
-        theme = 'horizon'
+        theme = 'tokyonight'
     },
     sections = {
         lualine_a = {'mode'},
@@ -110,9 +127,6 @@ require('lualine').setup{
 opt.showmode = false
 
 
--- colorscheme settings
-opt.termguicolors = true
-cmd 'colorscheme horizon'
 
 
 -- Manage buffers
@@ -165,17 +179,20 @@ require 'nvim-treesitter.configs'.setup{
     indent = {
         enable = false,
         disable = {},
-    }
+    },
+    ensure_installed = "all",
+
 }
 
 
 -- LSP
-local lsp = require('lspconfig')
+local lsp_ = require('lspconfig')
+
 local ansiblels_path = '/home/thiago/.lsp/ansible-language-server/out/server/src/'
 require('lspfuzzy').setup {}
-lsp.pyright.setup{}
-lsp.tsserver.setup{}
-lsp.ansiblels.setup{
+lsp_.pyright.setup{}
+lsp_.tsserver.setup{}
+lsp_.ansiblels.setup{
     cmd = {'node',ansiblels_path..'server.js', '--stdio'}
 }
 
@@ -196,13 +213,43 @@ nexec([[
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>',{silent = true})
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {silent = true})
 
+vim.lsp.handlers["textDocument/publishDiagnositcs"] =
+    vim.lsp.with( vim.lsp.diagnostic.on_publish_diagnostics,{
+        virtual_text = false,
+        signs = true,
+        update_in_insert = false
+    }
+    )
+vim.fn.sign_define('LspDiagnosticsSignError', {texthl = "LspDiagnosticsDefaultError"})
+vim.fn.sign_define('LspDiagnosticsSignWarning', {texthl = "LspDiagnosticsDefaultWarning"})
+vim.fn.sign_define('LspDiagnosticsSignInformation', {texthl = "LspDiagnosticsDefaultInformation"})
+vim.fn.sign_define('LspDiagnosticsSignHint', {texthl = "LspDiagnosticsDefaultHint"})
+
 require('lspsaga').init_lsp_saga{
     border_style = "round",
+    use_saga_diagnostic_sign = true,
+    error_sign = 'E',
+    warn_sign = '--',
+    hint_sign = 'H',
+    infor_sign = 'I',
+    dianostic_header_icon = '> ',
+    finder_action_keys = {
+        quit = '<Esc>',
+    },
+    code_action_keys = {
+        quit = '<Esc>',
+    }
+
 }
+
 map('n','\\ca', '<cmd>lua require("lspsaga.codeaction").code_action()<cr>',{silent = true})
 map('n','K',':Lspsaga hover_doc<cr>',{silent = true})
 map('n','gh',':Lspsaga lsp_finder<cr>',{silent = true})
 map('i','<C-a>', '<cmd>Lspsaga signature_help<cr>',{silent = true})
+map('n', '\\r' ,'<cmd>Lspsaga rename<cr>')
+map('n', '\\j' ,'<cmd>Lspsaga diagnostic_jump_next<cr>')
+map('n', '\\k' ,'<cmd>Lspsaga diagnostic_jump_prev<cr>')
+map('n', '\\sd','<cmd>lua require"lspsaga.diagnostic".show_line_diagnostics()<cr>')
 
 -- Autocompletion
 opt.completeopt = "menuone,noselect"
@@ -220,7 +267,7 @@ require('compe').setup {
     max_kind_width = 100;
     max_menu_width = 100;
     documentation = {
-        border = { '', '' ,'', ' ', '', '', '', ' ' }, -- the border option is the same as `|help nvim_open_win|`
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
         winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
         max_width = 120,
         min_width = 60,
@@ -237,6 +284,7 @@ require('compe').setup {
         vsnip = true;
         ultisnips = true;
         luasnip = true;
+        treesitter = true;
     };
 }
 
@@ -291,7 +339,7 @@ cmd 'let g:VM_maps = {}'
 cmd 'let g:VM_maps["Find Under"] = "<C-s>"'
 cmd 'let g:VM_maps["Find Subword Under"] = "<C-s>"'
 -- Fast edit and reload of this config file
-map('','<leader>e',':e! ' .. home_dir .. '/.config/nvim/init.lua<cr>')
+map('','<leader>e',':e! ' .. home_dir .. '/.dotfiles/nvim/.config/nvim/init.lua<cr>')
 cmd 'au! BufWritePost $HOME/.dotfiles/nvim/.config/nvim/init.lua source %'
 
 cmd 'au BufWritePre * :%s/\\s\\+$//e' -- Autoremove trailing whitespaces
@@ -303,3 +351,4 @@ cmd 'au BufReadPost * if line("\'\\"") > 1 && line("\'\\"") <= line("$") | exe "
 cmd 'au FileType html setlocal sw=2 ts=2 sts=2'
 cmd 'au FileType java setlocal sw=2 ts=2 sts=2'
 cmd 'au FileType typescript setlocal sw=2 ts=2 sts=2'
+

@@ -43,7 +43,7 @@ function M.setup()
                     template = "${object.className}{${member.name()}=${member.value}, ${otherMembers}}"
                 }
             }
-        }
+        },
     })
 
     local finders = require'telescope.finders'
