@@ -202,13 +202,7 @@ nexec([[
         au FileType java lua require('jdtls_setup').setup()
     augroup END
 ]],true)
-
-nexec([[
-    augroup luals_lsp
-        au!
-        au FileType lua lua require('luals_setup').setup()
-    augroup END
-]],true)
+require('luals_setup').setup()
 
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>',{silent = true})
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {silent = true})
