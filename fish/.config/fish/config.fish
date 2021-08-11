@@ -1,5 +1,7 @@
 fish_vi_key_bindings
 
+source $HOME/.config/fish/tokyonight.fish
+
 abbr p "sudo pacman"
 abbr y "yay"
 
@@ -15,4 +17,6 @@ fzf_configure_bindings --directory=\cf
 set -U Z_CMD "j"
 set -U ZO_METHOD "ranger"
 
-set -U EDITOR vim
+set -U EDITOR nvim
+
+set -x GPG_TTY (tty)
