@@ -151,7 +151,7 @@ map('i','<C-k>','<Esc>:m .-2<cr>==gi')
 
 -- telescope.nvim
 
-map('n','<C-f>','<cmd>Telescope find_files<cr>')
+map('n','<C-f>',':Telescope find_files find_command=rg,--ignore,--hidden,--files<cr>')
 map('n','<Leader>o','<cmd>Telescope buffers<cr>')
 map('n','<Leader>r','<cmd>Telescope live_grep<cr>')
 map('n','<Leader>t','<cmd>Telescope help_tags<cr>')
@@ -166,7 +166,7 @@ require('telescope').setup{
         }
     },
     defaults = {
-        file_ignore_patterns = {"node/no.*"}
+        file_ignore_patterns = {"node/no.*", ".git/"}
     }
 }
 require('telescope').load_extension('fzf')
