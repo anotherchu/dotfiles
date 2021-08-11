@@ -22,7 +22,6 @@ cmd 'packadd paq-nvim'
 local paq = require('paq-nvim')
 paq{
     'savq/paq-nvim';
-    'ntk148v/vim-horizon';
     'ervandew/supertab';
     'nvim-lua/popup.nvim';
     'nvim-lua/plenary.nvim';
@@ -41,7 +40,6 @@ paq{
     {'mg979/vim-visual-multi', branch = 'master'};
     'terrortylor/nvim-comment';
     'mhartington/formatter.nvim';
-    'rafamadriz/neon';
     'khaveesh/vim-fish-syntax';
     'folke/tokyonight.nvim';
 
@@ -57,8 +55,11 @@ paq{
 -- colorscheme settings
 opt.termguicolors = true
 vim.g.tokyonight_style = "night"
-vim.g.neon_bold = true
 cmd 'colorscheme tokyonight'
+
+-- Cursor
+cmd 'set guicursor='
+opt.cursorline = true
 
 -- Line numbers
 opt.number = true
@@ -78,7 +79,6 @@ opt.undofile = true
 -- Ignore case but smartcase when there's a capital letter on search term
 opt.ignorecase = true
 opt.smartcase = true
-
 
 -- Tabs
 opt.expandtab = true
@@ -351,4 +351,3 @@ cmd 'au BufReadPost * if line("\'\\"") > 1 && line("\'\\"") <= line("$") | exe "
 cmd 'au FileType html setlocal sw=2 ts=2 sts=2'
 cmd 'au FileType java setlocal sw=2 ts=2 sts=2'
 cmd 'au FileType typescript setlocal sw=2 ts=2 sts=2'
-
