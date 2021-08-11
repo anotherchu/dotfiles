@@ -42,6 +42,7 @@ paq{
     'mhartington/formatter.nvim';
     'khaveesh/vim-fish-syntax';
     'folke/tokyonight.nvim';
+    'folke/which-key.nvim';
 
     -- LSP Plugins and Autocompletion
     'neovim/nvim-lspconfig';
@@ -184,7 +185,6 @@ require 'nvim-treesitter.configs'.setup{
 
 }
 
-
 -- LSP
 local lsp_ = require('lspconfig')
 
@@ -323,6 +323,8 @@ require('formatter').setup{
         }
     }
 }
+
+require('which-key').setup{}
 
 map('n','<Leader>f',':Format<CR>',{silent = true})
 nexec([[
