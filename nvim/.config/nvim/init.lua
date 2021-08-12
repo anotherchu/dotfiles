@@ -190,7 +190,9 @@ local lsp_ = require('lspconfig')
 
 local ansiblels_path = '/home/thiago/.lsp/ansible-language-server/out/server/src/'
 require('lspfuzzy').setup {}
-lsp_.pyright.setup{}
+require('luals_setup').setup()
+-- lsp_.pyright.setup{}
+lsp_.jedi_language_server.setup{}
 lsp_.tsserver.setup{}
 lsp_.ansiblels.setup{
     cmd = {'node',ansiblels_path..'server.js', '--stdio'}
@@ -202,7 +204,7 @@ nexec([[
         au FileType java lua require('jdtls_setup').setup()
     augroup END
 ]],true)
-require('luals_setup').setup()
+
 
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>',{silent = true})
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {silent = true})
@@ -212,12 +214,7 @@ vim.lsp.handlers["textDocument/publishDiagnositcs"] =
         virtual_text = false,
         signs = true,
         update_in_insert = false
-    }
-    )
-vim.fn.sign_define('LspDiagnosticsSignError', {texthl = "LspDiagnosticsDefaultError"})
-vim.fn.sign_define('LspDiagnosticsSignWarning', {texthl = "LspDiagnosticsDefaultWarning"})
-vim.fn.sign_define('LspDiagnosticsSignInformation', {texthl = "LspDiagnosticsDefaultInformation"})
-vim.fn.sign_define('LspDiagnosticsSignHint', {texthl = "LspDiagnosticsDefaultHint"})
+    })
 
 require('lspsaga').init_lsp_saga{
     border_style = "round",
@@ -236,14 +233,14 @@ require('lspsaga').init_lsp_saga{
 
 }
 
-map('n','\\ca', '<cmd>lua require("lspsaga.codeaction").code_action()<cr>',{silent = true})
+map('n','<Leader>sca', '<cmd>lua require("lspsaga.codeaction").code_action()<cr>',{silent = true})
 map('n','K',':Lspsaga hover_doc<cr>',{silent = true})
 map('n','gh',':Lspsaga lsp_finder<cr>',{silent = true})
 map('i','<C-a>', '<cmd>Lspsaga signature_help<cr>',{silent = true})
-map('n', '\\r' ,'<cmd>Lspsaga rename<cr>')
-map('n', '\\j' ,'<cmd>Lspsaga diagnostic_jump_next<cr>')
-map('n', '\\k' ,'<cmd>Lspsaga diagnostic_jump_prev<cr>')
-map('n', '\\sd','<cmd>lua require"lspsaga.diagnostic".show_line_diagnostics()<cr>')
+map('n', '<Leader>sr' ,'<cmd>Lspsaga rename<cr>')
+map('n', '<Leader>sj' ,'<cmd>Lspsaga diagnostic_jump_next<cr>')
+map('n', '<Leader>sk' ,'<cmd>Lspsaga diagnostic_jump_prev<cr>')
+map('n', '<Leader>ssd','<cmd>lua require"lspsaga.diagnostic".show_line_diagnostics()<cr>')
 
 -- Autocompletion
 opt.completeopt = "menuone,noselect"
