@@ -1,0 +1,5 @@
+/build/
+/.vs/*
+!/.vs/launch.vs.json
+*.user
+/.vscode/ipch/

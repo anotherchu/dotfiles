@@ -1,0 +1,7 @@
+{
+    "editor.formatOnType": true,
+    "Lua.runtime.version": "Lua 5.4",
+    "Lua.diagnostics.globals": [
+        "EXE_RESOURCE"
+    ],
+}

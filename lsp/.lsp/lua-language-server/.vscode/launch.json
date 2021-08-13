@@ -1,0 +1,55 @@
+// A launch configuration that compiles the extension and then opens it inside a new window
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "🍺测试",
+			"type": "lua",
+			"request": "launch",
+			"stopOnEntry": false,
+			"program": "${workspaceRoot}/test.lua",
+			"luaexe": "${workspaceFolder}/bin/Windows/lua-language-server.exe",
+			"arg": [
+			],
+			"luaVersion": "latest",
+			"consoleCoding": "utf8",
+			"sourceCoding": "utf8",
+			"outputCapture": [
+				"print",
+				"stderr",
+			],
+		},
+		{
+			"name": "附加",
+			"type": "lua",
+			"request": "attach",
+			"stopOnEntry": true,
+			"address": "127.0.0.1:11556",
+			"outputCapture": [
+			],
+			"sourceMaps": [
+				[
+					"./*",
+					"${workspaceFolder}/*"
+				]
+			]
+		},
+		{
+			"name": "love-api",
+			"type": "lua",
+			"request": "launch",
+			"stopOnEntry": false,
+			"program": "${workspaceRoot}/tools/love-api.lua",
+			"luaexe": "${workspaceFolder}/bin/Windows/lua-language-server.exe",
+			"arg": [
+			],
+			"luaVersion": "latest",
+			"consoleCoding": "utf8",
+			"sourceCoding": "utf8",
+			"outputCapture": [
+				"print",
+				"stderr",
+			],
+		},
+	]
+}

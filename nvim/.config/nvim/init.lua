@@ -1,16 +1,16 @@
-vim.api.nvim_exec([[
+local cmd = vim.cmd
+local nexec = vim.api.nvim_exec
+local g = vim.g
+local opt = vim.opt
+local home_dir = os.getenv('HOME')
+
+nexec([[
 if &shell =~# 'fish$'
     set shell=sh
 endif
 ]],true)
 
-vim.g.mapleader = ","
-local cmd = vim.cmd
-local nexec = vim.api.nvim_exec
-local fn = vim.fn
-local g = vim.g
-local opt = vim.opt
-local home_dir = os.getenv('HOME')
+g.mapleader = ","
 
 local function map(mode,lhs,rhs,opts)
   local options = {noremap = true}
@@ -55,7 +55,7 @@ paq{
 
 -- colorscheme settings
 opt.termguicolors = true
-vim.g.tokyonight_style = "night"
+g.tokyonight_style = "night"
 cmd 'colorscheme tokyonight'
 
 -- Cursor
@@ -89,7 +89,7 @@ opt.shiftwidth=4
 opt.tabstop=4
 
 -- Supertab
-vim.g.SuperTabDefaultCompletionType = '<C-n>'
+g.SuperTabDefaultCompletionType = '<C-n>'
 
 -- Scrolls when 8 columns away from edge
 opt.scrolloff = 10
@@ -281,7 +281,7 @@ require('compe').setup {
 
 map('i','<C-Space>','compe#complete()',{silent=true,expr=true})
 map('i','<cr>','compe#confirm(luaeval("require \'nvim-autopairs\'.autopairs_cr()"))',{silent=true,expr=true})
-map('i','<C-e','compe#close("<C-e")',{silenttrue,expr=true})
+map('i','<C-e','compe#close("<C-e")',{silent = true,expr=true})
 
 -- Autopairs
 require('nvim-autopairs').setup{}
@@ -303,7 +303,6 @@ require('formatter').setup{
         },
         java = {
             function()
-                local args = {}
                 return{
                     exe = "java",
                     args = {'--add-exports', 'jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED', '-jar', home_dir .. '/.local/jars/google-java-format-1.10.0-all-deps.jar', vim.api.nvim_buf_get_name(0)},
