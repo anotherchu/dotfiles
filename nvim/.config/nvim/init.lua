@@ -188,15 +188,12 @@ require 'nvim-treesitter.configs'.setup{
 -- LSP
 local lsp_ = require('lspconfig')
 
-local ansiblels_path = '/home/thiago/.lsp/ansible-language-server/out/server/src/'
 require('lspfuzzy').setup {}
 require('luals_setup').setup()
 -- lsp_.pyright.setup{}
 lsp_.jedi_language_server.setup{}
 lsp_.tsserver.setup{}
-lsp_.ansiblels.setup{
-    cmd = {'node',ansiblels_path..'server.js', '--stdio'}
-}
+lsp_.ansiblels.setup{}
 
 nexec([[
     augroup jdtls_lsp
