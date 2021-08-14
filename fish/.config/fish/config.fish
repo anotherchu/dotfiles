@@ -18,4 +18,4 @@ set -U Z_CMD "j"
 set -U ZO_METHOD "ranger"
 
 set -U EDITOR nvim
-set -U GPG_TTY (tty)
+set -U VISUAL nvim
