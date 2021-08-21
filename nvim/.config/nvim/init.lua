@@ -43,6 +43,7 @@ paq{
     'khaveesh/vim-fish-syntax';
     'folke/tokyonight.nvim';
     'folke/which-key.nvim';
+    'xiyaowong/nvim-transparent';
 
     -- LSP Plugins and Autocompletion
     'neovim/nvim-lspconfig';
@@ -318,9 +319,14 @@ nexec([[
     augroup FormatAutogroup
         au!
         au BufWritePost *.html FormatWrite
-        au BufWritePost *.java FormatWrite
     augroup END
 ]],true)
+
+require('transparent').setup{
+    enable = true,
+    extra_groups = { 'all' }
+}
+g.transparent_enabled = 1
 
 -- vim-visual-multi
 cmd 'let g:VM_show_warnings = 0'

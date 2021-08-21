@@ -12,7 +12,7 @@ alias vim="nvim"
 
 set fzf_preview_dir_cmd exa --all --color=always
 set fzf_fd_opts -uu -i -L --exclude=.git
-fzf_configure_bindings --directory=\cf
+fzf_configure_bindings --directory=\cf --variables
 
 set -U Z_CMD "j"
 set -U ZO_METHOD "ranger"
