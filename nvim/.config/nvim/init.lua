@@ -21,6 +21,7 @@ end
 cmd 'packadd paq-nvim'
 local paq = require('paq-nvim')
 paq{
+    'folke/tokyonight.nvim';
     'savq/paq-nvim';
     'ervandew/supertab';
     'nvim-lua/popup.nvim';
@@ -41,7 +42,6 @@ paq{
     'terrortylor/nvim-comment';
     'mhartington/formatter.nvim';
     'khaveesh/vim-fish-syntax';
-    'folke/tokyonight.nvim';
     'folke/which-key.nvim';
     'xiyaowong/nvim-transparent';
 
@@ -53,6 +53,9 @@ paq{
     'kyazdani42/nvim-web-devicons';
     'mfussenegger/nvim-jdtls';
 }
+
+-- Enable mouse
+opt.mouse = 'a'
 
 -- colorscheme settings
 opt.termguicolors = true
@@ -115,7 +118,7 @@ require('lualine').setup{
         lualine_y = {'progress'},
         lualine_z = {'location'}
     },
-    inactive_sections = {
+   inactive_sections = {
         lualine_a = {},
         lualine_b = {},
         lualine_c = {'filename'},
@@ -195,6 +198,9 @@ require('luals_setup').setup()
 lsp_.jedi_language_server.setup{}
 lsp_.tsserver.setup{}
 lsp_.ansiblels.setup{}
+lsp_.powershell_es.setup{
+    bundle_path = '~/.lsp/ps-language-server';
+}
 
 nexec([[
     augroup jdtls_lsp
@@ -308,6 +314,33 @@ require('formatter').setup{
 
                 }
             end
+        },
+        typescript = {
+            function()
+                return{
+                    exe = "prettier",
+                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+                    stdin = true
+                }
+            end
+        },
+        json = {
+            function()
+                return{
+                    exe = "prettier",
+                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+                    stdin = true
+                }
+            end
+        },
+        yaml = {
+            function()
+                return{
+                    exe = "prettier",
+                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
+                    stdin = true
+                }
+            end
         }
     }
 }
@@ -318,7 +351,9 @@ map('n','<Leader>f',':Format<CR>',{silent = true})
 nexec([[
     augroup FormatAutogroup
         au!
+        au BufWritePost *.ts FormatWrite
         au BufWritePost *.html FormatWrite
+        au BuFWritePost *.json FormatWrite
     augroup END
 ]],true)
 

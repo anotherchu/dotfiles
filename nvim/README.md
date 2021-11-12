@@ -21,3 +21,5 @@ Also install formatters:
 - [google-java-format](https://github.com/google/google-java-format)
 
 Also install `ripgrep`
+
+Also install `C and C++ compilers` and `make` - required by `telescope-fzf-native.nvim` and `treesitter`

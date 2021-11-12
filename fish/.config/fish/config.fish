@@ -19,3 +19,9 @@ set -U ZO_METHOD "ranger"
 
 set -U EDITOR nvim
 set -U VISUAL nvim
+
+# pyenv configuration
+status is-login; and pyenv init --path | source
+status is-interactive; and pyenv init - | source
+status is-interactive; and pyenv virtualenv-init - | source
+# end pyenv configuration
