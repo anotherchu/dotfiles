@@ -52,6 +52,7 @@ paq{
     'glepnir/lspsaga.nvim';
     'kyazdani42/nvim-web-devicons';
     'mfussenegger/nvim-jdtls';
+    'akinsho/bufferline.nvim';
 }
 
 -- Enable mouse
@@ -132,6 +133,9 @@ require('lualine').setup{
 opt.showmode = false
 
 
+--- Keep indenting selected on visual mode
+map('v','<', '<gv')
+map('v','>', '>gv')
 
 
 -- Manage buffers
@@ -346,6 +350,8 @@ require('formatter').setup{
 }
 
 require('which-key').setup{}
+
+require('bufferline').setup{}
 
 map('n','<Leader>f',':Format<CR>',{silent = true})
 nexec([[
