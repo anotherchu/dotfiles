@@ -1,0 +1,13 @@
+[$Version]
+update_info=kwinrules.upd:replace-placement-string-to-enum
+
+[1]
+Description=Window Router
+desktop=4
+desktoprule=2
+wmclass=microsoft teams
+wmclasscomplete=true
+wmclassmatch=2
+
+[General]
+count=1
