@@ -7,7 +7,7 @@ abbr y "yay"
 
 source $HOME/work/.config/fish/abbr.fish
 alias cat="bat"
-alias ls="exa -l"
+alias ls="exa"
 alias vim="nvim"
 
 set fzf_preview_dir_cmd exa --all --color=always

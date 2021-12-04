@@ -28,9 +28,6 @@ paq{
     'nvim-lua/plenary.nvim';
     'nvim-telescope/telescope.nvim';
     {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'};
-    'hrsh7th/vim-vsnip';
-    'hrsh7th/vim-vsnip-integ';
-    'rafamadriz/friendly-snippets';
     'tpope/vim-surround';
     'hoob3rt/lualine.nvim';
     'windwp/nvim-autopairs';
@@ -48,8 +45,15 @@ paq{
     -- LSP Plugins and Autocompletion
     'neovim/nvim-lspconfig';
     'ojroques/nvim-lspfuzzy';
-    'hrsh7th/nvim-compe';
-    'glepnir/lspsaga.nvim';
+    'rafamadriz/friendly-snippets';
+    'hrsh7th/nvim-cmp';
+    'hrsh7th/cmp-nvim-lsp';
+    'hrsh7th/cmp-buffer';
+    'hrsh7th/cmp-path';
+    'hrsh7th/cmp-cmdline';
+    'hrsh7th/cmp-vsnip';
+    'hrsh7th/vim-vsnip';
+    'tami5/lspsaga.nvim';
     'kyazdani42/nvim-web-devicons';
     'mfussenegger/nvim-jdtls';
     'akinsho/bufferline.nvim';
@@ -196,13 +200,21 @@ require 'nvim-treesitter.configs'.setup{
 -- LSP
 local lsp_ = require('lspconfig')
 
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 require('lspfuzzy').setup {}
 require('luals_setup').setup()
 -- lsp_.pyright.setup{}
-lsp_.jedi_language_server.setup{}
-lsp_.tsserver.setup{}
-lsp_.ansiblels.setup{}
+lsp_.jedi_language_server.setup{
+    capabilities = capabilities
+}
+lsp_.tsserver.setup{
+    capabilities = capabilities
+}
+lsp_.ansiblels.setup{
+    capabilities = capabilities
+}
 lsp_.powershell_es.setup{
+    capabilities = capabilities,
     bundle_path = '~/.lsp/ps-language-server';
 }
 
@@ -238,7 +250,6 @@ require('lspsaga').init_lsp_saga{
     code_action_keys = {
         quit = '<Esc>',
     }
-
 }
 
 map('n','<Leader>sca', '<cmd>lua require("lspsaga.codeaction").code_action()<cr>',{silent = true})
@@ -251,45 +262,81 @@ map('n', '<Leader>sk' ,'<cmd>Lspsaga diagnostic_jump_prev<cr>')
 map('n', '<Leader>ssd','<cmd>lua require"lspsaga.diagnostic".show_line_diagnostics()<cr>')
 
 -- Autocompletion
-opt.completeopt = "menuone,noselect"
-require('compe').setup {
-    enabled = true;
-    autocomplete = true;
-    debug = false;
-    min_length = 1;
-    preselect = 'enable';
-    throttle_time = 80;
-    source_timeout = 200;
-    resolve_timeout = 800;
-    incomplete_delay = 400;
-    max_abbr_width = 100;
-    max_kind_width = 100;
-    max_menu_width = 100;
+opt.completeopt = "menu,menuone,noselect"
+local cmp = require('cmp')
+local has_words_before = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local feedkey = function(key, mode)
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
+
+cmp.setup({
+    snippet = {
+        expand = function(args)
+                    vim.fn["vsnip#anonymous"](args.body)
+                 end,
+    },
+    mapping = {
+        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), {'i', 'c'}),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
+        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), {'i', 'c'}),
+        ['<C-e>'] = cmp.mapping({i = cmp.mapping.abort(), c = cmp.mapping.close()}),
+        ['<CR>'] = cmp.mapping.confirm({select = true}),
+        ['<Tab>'] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_next_item()
+            elseif vim.fn["vsnip#available"](1) == 1 then
+                feedkey("<Plug>(vsnip-expand-or-jump)", "")
+            elseif has_words_before() then
+                cmp.complete()
+            else fallback()
+            end
+        end, {"i", "s"}),
+        ['<S-Tab>'] = cmp.mapping(function()
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                feedkey("<Plug>(vsnip-jump-prev)", "")
+            end
+        end, {"i", "s"})
+    },
+    sources = cmp.config.sources({
+        { name = 'nvim_lsp'},
+        { name = 'vsnip'},
+        { name = 'path'},
+        { name = 'buffer'},
+        { name = 'calc'},
+        { name = 'treesitter'}
+    }),
+    autocomplete = true,
     documentation = {
         border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-        winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+        winhighlight = "NormalFloat:NormalFloat,FloatBorder:NormalFloat",
         max_width = 120,
         min_width = 60,
         max_height = math.floor(vim.o.lines * 0.3),
-        min_height = 1,
-    };
+        min_height = 1
+    },
+    formatting = {
+        format = function(entry, vim_item)
+            vim_item.menu = ({
+                nvim_lsp = "[LSP]",
+                buffer = "[BUF]",
+                vsnip = "[SNIP]"
+            })[entry.source.name]
+            return vim_item
+        end
+    }
+})
 
-    source = {
-        path = true;
-        buffer = true;
-        calc = true;
-        nvim_lsp = true;
-        nvim_lua = true;
-        vsnip = true;
-        ultisnips = true;
-        luasnip = true;
-        treesitter = true;
-    };
-}
+cmp.setup.cmdline('/', { sources = { {name = 'buffer'}}})
+cmp.setup.cmdline(':', { sources = cmp.config.sources({{name = 'path'}}, {{name = 'cmdline'}})})
 
-map('i','<C-Space>','compe#complete()',{silent=true,expr=true})
-map('i','<cr>','compe#confirm(luaeval("require \'nvim-autopairs\'.autopairs_cr()"))',{silent=true,expr=true})
-map('i','<C-e','compe#close("<C-e")',{silent = true,expr=true})
+
+cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done({map_char = {tex = ''}}))
 
 -- Autopairs
 require('nvim-autopairs').setup{}

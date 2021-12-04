@@ -4,7 +4,8 @@ local root_markers = {'mvnw', '.git'}
 local root_dir = require('jdtls.setup').find_root(root_markers)
 local home = os.getenv('HOME')
 local workspace_folder = home .. "/workspace/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
-local jdt_capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local jdt_capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 jdt_capabilities.workspace.configuration = true
 jdt_capabilities.textDocument.completion.completionItem.snippetSupport = true
 

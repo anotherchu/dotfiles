@@ -4,6 +4,8 @@ local sumneko_binary = sumneko_root .. '/bin/Linux/lua-language-server'
 local lua_runtime_path = vim.split(package.path, ';')
 table.insert(lua_runtime_path, 'lua/?.lua')
 table.insert(lua_runtime_path, 'lua/?/init.lua')
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
 local M = {}
 function M.setup()
