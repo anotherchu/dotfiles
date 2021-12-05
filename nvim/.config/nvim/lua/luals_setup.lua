@@ -30,7 +30,8 @@ function M.setup()
                 }
             }
         },
-        filetypes = {'lua'}
+        filetypes = {'lua'},
+        capabilities = capabilities
     }
 end
 
