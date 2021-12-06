@@ -221,13 +221,6 @@ end)
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>',{silent = true})
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {silent = true})
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] =
-    vim.lsp.with( vim.lsp.diagnostic.on_publish_diagnostics,{
-        virtual_text = false,
-        signs = true,
-        update_in_insert = false
-    })
-
 require('lspsaga').init_lsp_saga{
     border_style = "round",
     use_saga_diagnostic_sign = true,
@@ -257,7 +250,7 @@ map('n', '<Leader>ssd','<cmd>lua require"lspsaga.diagnostic".show_line_diagnosti
 opt.completeopt = "menu,menuone,noselect"
 local cmp = require('cmp')
 local has_words_before = function()
-    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+    local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
