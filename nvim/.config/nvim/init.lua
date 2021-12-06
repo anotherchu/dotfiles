@@ -43,6 +43,7 @@ paq{
     'xiyaowong/nvim-transparent';
 
     -- LSP Plugins and Autocompletion
+    'williamboman/nvim-lsp-installer';
     'neovim/nvim-lspconfig';
     'ojroques/nvim-lspfuzzy';
     'rafamadriz/friendly-snippets';
@@ -198,38 +199,29 @@ require 'nvim-treesitter.configs'.setup{
 }
 
 -- LSP
-local lsp_ = require('lspconfig')
 
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 require('lspfuzzy').setup {}
-require('luals_setup').setup()
--- lsp_.pyright.setup{}
-lsp_.jedi_language_server.setup{
-    capabilities = capabilities
-}
-lsp_.tsserver.setup{
-    capabilities = capabilities
-}
-lsp_.ansiblels.setup{
-    capabilities = capabilities
-}
-lsp_.powershell_es.setup{
-    capabilities = capabilities,
-    bundle_path = '~/.lsp/ps-language-server';
-}
 
-nexec([[
-    augroup jdtls_lsp
-        au!
-        au FileType java lua require('jdtls_setup').setup()
-    augroup END
-]],true)
+require('nvim-lsp-installer').on_server_ready(function(server)
+    local opts = { capabilities = capabilities }
+    if server.name == "sumneko_lua" then
+        opts = {
+            settings = {
+                Lua = {
+                    diagnostics = {globals = {'vim'}}
+                }
+            }
+        }
+    end
+    server:setup(opts)
+end)
 
 
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>',{silent = true})
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', {silent = true})
 
-vim.lsp.handlers["textDocument/publishDiagnositcs"] =
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
     vim.lsp.with( vim.lsp.diagnostic.on_publish_diagnostics,{
         virtual_text = false,
         signs = true,
