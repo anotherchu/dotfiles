@@ -1,11 +1,10 @@
 # This is Git's per-user configuration file.
 [user]
-# Please adapt and uncomment the following lines:
 	name = Thiago Chu
 	email = thiagomei@id.uff.br
 	signingkey = FDF48D6ABC0A2261
 [core]
-	editor = vim
+	editor = nvim
 [commit]
 	gpgsign = true
 [alias]

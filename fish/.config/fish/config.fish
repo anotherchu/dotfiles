@@ -4,11 +4,18 @@ source $HOME/.config/fish/tokyonight.fish
 
 abbr p "sudo pacman"
 abbr y "yay"
+abbr dcu "docker compose up"
+abbr dcd "docker compose down"
+abbr ga "git add"
+abbr gc "git commit -m"
+abbr gp "git push"
+abbr l "exa"
+
 
 source $HOME/work/.config/fish/abbr.fish
 alias cat="bat"
 alias ls="exa"
-alias vim="nvim"
+alias n="nvim"
 
 set fzf_preview_dir_cmd exa --all --color=always
 set fzf_fd_opts -uu -i -L --exclude=.git

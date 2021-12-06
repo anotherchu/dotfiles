@@ -31,12 +31,12 @@ paq{
     'tpope/vim-surround';
     'hoob3rt/lualine.nvim';
     'windwp/nvim-autopairs';
+    'numToStr/Comment.nvim';
     'junegunn/fzf';
     'junegunn/fzf.vim';
     {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'};
     'iamcco/markdown-preview.nvim';
     {'mg979/vim-visual-multi', branch = 'master'};
-    'terrortylor/nvim-comment';
     'mhartington/formatter.nvim';
     'khaveesh/vim-fish-syntax';
     'folke/which-key.nvim';
@@ -243,7 +243,7 @@ require('lspsaga').init_lsp_saga{
     warn_sign = '--',
     hint_sign = 'H',
     infor_sign = 'I',
-    dianostic_header_icon = '> ',
+    diagnostic_header_icon = '> ',
     finder_action_keys = {
         quit = '<Esc>',
     },
@@ -335,14 +335,13 @@ cmp.setup({
 cmp.setup.cmdline('/', { sources = { {name = 'buffer'}}})
 cmp.setup.cmdline(':', { sources = cmp.config.sources({{name = 'path'}}, {{name = 'cmdline'}})})
 
-
 cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done({map_char = {tex = ''}}))
 
 -- Autopairs
 require('nvim-autopairs').setup{}
 
--- nvim-comment
-require('nvim_comment').setup{}
+-- Comment.nvim
+require('Comment').setup{}
 
 -- formatter
 require('formatter').setup{
@@ -406,7 +405,7 @@ nexec([[
         au!
         au BufWritePost *.ts FormatWrite
         au BufWritePost *.html FormatWrite
-        au BuFWritePost *.json FormatWrite
+        au BufWritePost *.json FormatWrite
     augroup END
 ]],true)
 
