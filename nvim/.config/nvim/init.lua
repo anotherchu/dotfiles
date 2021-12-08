@@ -209,7 +209,8 @@ require('nvim-lsp-installer').on_server_ready(function(server)
         opts = {
             settings = {
                 Lua = {
-                    diagnostics = {globals = {'vim'}}
+                    diagnostics = {globals = {'vim'}},
+                    runtime = { version = 'Lua 5.1'}
                 }
             }
         }
@@ -250,7 +251,7 @@ map('n', '<Leader>ssd','<cmd>lua require"lspsaga.diagnostic".show_line_diagnosti
 opt.completeopt = "menu,menuone,noselect"
 local cmp = require('cmp')
 local has_words_before = function()
-    local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0))
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
@@ -269,7 +270,7 @@ cmp.setup({
         ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), {'i', 'c'}),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), {'i', 'c'}),
         ['<C-e>'] = cmp.mapping({i = cmp.mapping.abort(), c = cmp.mapping.close()}),
-        ['<CR>'] = cmp.mapping.confirm({select = true}),
+        ['<CR>'] = cmp.mapping.confirm({select = false}),
         ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
