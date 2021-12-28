@@ -343,8 +343,8 @@ require('formatter').setup{
         java = {
             function()
                 return{
-                    exe = "java",
-                    args = {'--add-exports', 'jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED', '--add-exports', 'jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED', '-jar', home_dir .. '/.local/jars/google-java-format-1.11.0-all-deps.jar', vim.api.nvim_buf_get_name(0)},
+                    exe = "prettier",
+                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0)},
                     stdin = true
 
                 }
@@ -391,6 +391,7 @@ nexec([[
         au BufWritePost *.ts FormatWrite
         au BufWritePost *.html FormatWrite
         au BufWritePost *.json FormatWrite
+        au BufWritePost *.java FormatWrite
     augroup END
 ]],true)
 
