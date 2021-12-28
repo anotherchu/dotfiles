@@ -18,8 +18,7 @@ local function map(mode,lhs,rhs,opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-cmd 'packadd paq-nvim'
-local paq = require('paq-nvim')
+local paq = require('paq')
 paq{
     'folke/tokyonight.nvim';
     'savq/paq-nvim';

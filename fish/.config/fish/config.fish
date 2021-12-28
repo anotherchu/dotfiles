@@ -12,7 +12,7 @@ abbr gp "git push"
 abbr l "exa"
 
 
-source $HOME/work/.config/fish/abbr.fish
+#source $HOME/work/.config/fish/abbr.fish
 alias cat="bat"
 alias ls="exa"
 alias n="nvim"
