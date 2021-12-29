@@ -40,6 +40,7 @@ paq{
     'khaveesh/vim-fish-syntax';
     'folke/which-key.nvim';
     'xiyaowong/nvim-transparent';
+    'lambdalisue/suda.vim';
 
     -- LSP Plugins and Autocompletion
     'williamboman/nvim-lsp-installer';
@@ -55,7 +56,6 @@ paq{
     'hrsh7th/vim-vsnip';
     'tami5/lspsaga.nvim';
     'kyazdani42/nvim-web-devicons';
-    'mfussenegger/nvim-jdtls';
     'akinsho/bufferline.nvim';
 }
 
@@ -64,7 +64,7 @@ opt.mouse = 'a'
 
 -- colorscheme settings
 opt.termguicolors = true
-g.tokyonight_style = "night"
+g.tokyonight_style = "storm"
 cmd 'colorscheme tokyonight'
 
 -- Cursor
@@ -100,6 +100,9 @@ opt.tabstop=4
 -- Supertab
 g.SuperTabDefaultCompletionType = '<C-n>'
 
+-- Suda.vim
+g.suda_smart_edit = 1
+
 -- Scrolls when 8 columns away from edge
 opt.scrolloff = 10
 
@@ -108,7 +111,7 @@ opt.wrap = false
 opt.signcolumn = 'yes'
 
 -- Statusline
-opt.cmdheight = 2
+opt.cmdheight = 1
 
 require('lualine').setup{
     options = {
@@ -397,9 +400,16 @@ nexec([[
 
 require('transparent').setup{
     enable = true,
-    extra_groups = { 'all' }
+    extra_groups = {
+        "BufferLineTabClose",
+        "BufferlineBufferSelected",
+        "BufferLineFill",
+        "BufferLineBackground",
+        "BufferLineSeparator",
+        "BufferLineIndicatorSelected",
+    }
 }
-g.transparent_enabled = 1
+
 
 -- vim-visual-multi
 cmd 'let g:VM_show_warnings = 0'
@@ -419,3 +429,4 @@ cmd 'au BufReadPost * if line("\'\\"") > 1 && line("\'\\"") <= line("$") | exe "
 cmd 'au FileType html setlocal sw=2 ts=2 sts=2'
 cmd 'au FileType java setlocal sw=2 ts=2 sts=2'
 cmd 'au FileType typescript setlocal sw=2 ts=2 sts=2'
+
