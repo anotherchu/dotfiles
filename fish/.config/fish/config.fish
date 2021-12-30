@@ -9,7 +9,6 @@ abbr dcd "docker compose down"
 abbr ga "git add"
 abbr gc "git commit -m"
 abbr gp "git push"
-abbr l "exa"
 
 
 #source $HOME/work/.config/fish/abbr.fish
