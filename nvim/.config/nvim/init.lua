@@ -6,7 +6,7 @@ local home_dir = os.getenv('HOME')
 
 nexec([[
 if &shell =~# 'fish$'
-    set shell=sh
+    set shell=bash
 endif
 ]],true)
 
@@ -41,6 +41,7 @@ paq{
     'folke/which-key.nvim';
     'xiyaowong/nvim-transparent';
     'lambdalisue/suda.vim';
+    'voldikss/vim-floaterm';
 
     -- LSP Plugins and Autocompletion
     'williamboman/nvim-lsp-installer';
@@ -139,6 +140,11 @@ require('lualine').setup{
 }
 opt.showmode = false
 
+-- Move lines up or down
+map('n','<C-j>',':m .+1<cr>==',{silent=true})
+map('n','<C-k>',':m .-2<cr>==',{silent=true})
+map('i','<C-j>','<Esc>:m .+1<cr>==gi',{silent=true})
+map('i','<C-k>','<Esc>:m .-2<cr>==gi',{silent=true})
 
 --- Keep indenting selected on visual mode
 map('v','<', '<gv')
@@ -157,11 +163,6 @@ map('','<Leader>m','mmHmt:%s/<C-V><cr>//ge<cr>\'tzt\'m') -- Remove Windows' ^M f
 map('','<Leader><cr>',':noh<cr>',{silent=true}) -- Remove hightlights
 map('','<Leader>cd',':cd %:p:h<cr>:pwd<cr>') -- Change pwd to current buffer path
 
--- Move lines up or down
-map('n','<C-j>',':m .+1<cr>==')
-map('n','<C-k>',':m .-2<cr>==')
-map('i','<C-j>','<Esc>:m .+1<cr>==gi')
-map('i','<C-k>','<Esc>:m .-2<cr>==gi')
 
 
 -- telescope.nvim
@@ -169,7 +170,6 @@ map('i','<C-k>','<Esc>:m .-2<cr>==gi')
 map('n','<C-f>',':Telescope find_files find_command=rg,--ignore,--hidden,--files<cr>')
 map('n','<Leader>o','<cmd>Telescope buffers<cr>')
 map('n','<Leader>r','<cmd>Telescope live_grep<cr>')
-map('n','<Leader>t','<cmd>Telescope help_tags<cr>')
 
 require('telescope').setup{
     extensions = {
@@ -330,6 +330,12 @@ require('nvim-autopairs').setup{}
 
 -- Comment.nvim
 require('Comment').setup{}
+
+-- Floaterm.nvim
+g.floaterm_keymap_toggle='<Leader>ft'
+g.floaterm_shell='fish'
+map('t','<Esc>', '<C-\\><C-n>')
+
 
 -- formatter
 require('formatter').setup{
