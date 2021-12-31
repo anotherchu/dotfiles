@@ -52,6 +52,7 @@ public class WorkspacerConfig{
                     },
                     RightWidgets = () => new IBarWidget[]
                     {
+                        new BatteryWidget(),
                         new TimeWidget(200,"HH:mm:ss dd/MM/yy"),
                         new ActiveLayoutWidget()
                     },
