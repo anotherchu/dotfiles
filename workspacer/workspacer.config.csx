@@ -25,7 +25,7 @@ public class WorkspacerConfig{
         _context.Branch = Branch.Unstable;
         _fontSize = 10;
         _barHeight = 20;
-        _foreground = new Color(0xFF,0xA5,0x00); 
+        _foreground = new Color(0xFF,0xA5,0x00);
         _gaps = InitGaps();
         InitBar();
         InitWorkspaces();
@@ -34,17 +34,17 @@ public class WorkspacerConfig{
     }
 
     private void InitBar(){
-        
+
         WorkspaceWidget WsWidget = new WorkspaceWidget();
         WsWidget.WorkspaceHasFocusColor = _foreground;
         WsWidget.WorkspaceIndicatingBackColor = _foreground;
-    
+
         _context.AddBar(
                 new BarPluginConfig()
                 {
                     FontSize = _fontSize,
                     BarHeight = _barHeight,
-                    LeftWidgets = () => new IBarWidget[] 
+                    LeftWidgets = () => new IBarWidget[]
                     {
                         WsWidget,
                         new TextWidget("> "),
@@ -63,12 +63,12 @@ public class WorkspacerConfig{
 
     private GapPlugin InitGaps()
     {
-        var gap = _barHeight - 12;
+        var gap = _barHeight - 8;
         return _context.AddGap(
             new GapPluginConfig()
             {
                 InnerGap = gap,
-                OuterGap = 4,
+                OuterGap = 8,
                 Delta = gap / 2,
             }
         );
@@ -82,7 +82,7 @@ public class WorkspacerConfig{
             new FullLayoutEngine(),
         };
         _context.DefaultLayouts = defaultLayouts;
-        _context.WorkspaceContainer.CreateWorkspaces("main", "work", "sub", "chat", "media");
+        _context.WorkspaceContainer.CreateWorkspaces("一", "二", "三", "四", "五", "六");
     }
 
     private void InitFilters(){
@@ -97,14 +97,14 @@ public class WorkspacerConfig{
                                   };
         foreach (string programName in filterList){
             _context.WindowRouter.AddFilter((window) => !window.Title.Contains(programName));
-        }   
+        }
     }
-    
+
     private void InitRoutes(){
-        _context.WindowRouter.RouteTitle("Telegram","chat");
-        _context.WindowRouter.RouteTitle("Discord","chat");
-        _context.WindowRouter.RouteProcessName("Spotify","media");
-        _context.WindowRouter.RouteProcessName("mpv","media");
+        _context.WindowRouter.RouteTitle("Telegram","四");
+        _context.WindowRouter.RouteTitle("Discord","四");
+        _context.WindowRouter.RouteProcessName("Spotify","五");
+        _context.WindowRouter.RouteProcessName("mpv","五");
     }
 
 }
