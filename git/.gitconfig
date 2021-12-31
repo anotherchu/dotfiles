@@ -2,7 +2,7 @@
 [user]
 	name = Thiago Chu
 	email = thiagomei@id.uff.br
-	signingkey = FDF48D6ABC0A2261
+	signingkey = D337E0C06D90C432
 [core]
 	editor = nvim
 [commit]
