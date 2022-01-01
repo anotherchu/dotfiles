@@ -333,7 +333,13 @@ require('Comment').setup{}
 
 -- Floaterm.nvim
 g.floaterm_keymap_toggle='<Leader>ft'
-g.floaterm_shell='fish'
+
+if vim.loop.os_uname().sysname == "Windows_NT" then
+    g.floaterm_shell='powershell'
+else
+    g.floaterm_shell='fish'
+end
+
 map('t','<Esc>', '<C-\\><C-n>')
 
 
