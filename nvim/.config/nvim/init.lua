@@ -13,7 +13,7 @@ endif
 	true
 )
 
-g.mapleader = ","
+g.mapleader = "," -- test
 
 local function map(mode, lhs, rhs, opts)
 	local options = { noremap = true }
@@ -26,6 +26,7 @@ end
 local paq = require("paq")
 paq({
 	"folke/tokyonight.nvim",
+	{ "catppuccin/nvim", name = "catppuccin" },
 	"savq/paq-nvim",
 	"ervandew/supertab",
 	"nvim-lua/popup.nvim",
@@ -70,8 +71,13 @@ opt.mouse = "a"
 
 -- colorscheme settings
 opt.termguicolors = true
-g.tokyonight_style = "storm"
-cmd("colorscheme tokyonight")
+require("catppuccin").setup({
+	transparent_background = true,
+	styles = {
+		comments = "italic",
+	},
+})
+cmd("colorscheme catppuccin")
 
 -- Cursor
 cmd("set guicursor=")
@@ -131,7 +137,6 @@ map("n", "<Leader>spell", ":set spell!<CR>", { silent = true })
 require("lualine").setup({
 	options = {
 		icons_enabled = true,
-		theme = "tokyonight",
 	},
 	sections = {
 		lualine_a = { "mode" },
@@ -382,6 +387,9 @@ require("transparent").setup({
 		"BufferLineIndicatorSelected",
 	},
 })
+
+require("aiksaurus")
+map("n", "<Leader>thes", "ea<C-x><C-t>", { silent = true })
 
 -- vim-visual-multi
 cmd("let g:VM_show_warnings = 0")
