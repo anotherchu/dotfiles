@@ -25,7 +25,6 @@ end
 
 local paq = require("paq")
 paq({
-	"folke/tokyonight.nvim",
 	{ "catppuccin/nvim", name = "catppuccin" },
 	"savq/paq-nvim",
 	"ervandew/supertab",
@@ -42,15 +41,16 @@ paq({
 	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
 	"iamcco/markdown-preview.nvim",
 	{ "mg979/vim-visual-multi", branch = "master" },
-	"jose-elias-alvarez/null-ls.nvim",
 	"khaveesh/vim-fish-syntax",
 	"folke/which-key.nvim",
 	"xiyaowong/nvim-transparent",
 	"lambdalisue/suda.vim",
 	"voldikss/vim-floaterm",
+	"norcalli/nvim-colorizer.lua",
 
 	-- LSP Plugins and Autocompletion
 	"williamboman/nvim-lsp-installer",
+	"jose-elias-alvarez/null-ls.nvim",
 	"neovim/nvim-lspconfig",
 	"ojroques/nvim-lspfuzzy",
 	"rafamadriz/friendly-snippets",
@@ -390,6 +390,8 @@ require("transparent").setup({
 
 require("aiksaurus")
 map("n", "<Leader>thes", "ea<C-x><C-t>", { silent = true })
+
+require("colorizer").setup()
 
 -- vim-visual-multi
 cmd("let g:VM_show_warnings = 0")

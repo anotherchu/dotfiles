@@ -1,6 +1,6 @@
 fish_vi_key_bindings
 
-source $HOME/.config/fish/tokyonight.fish
+#source $HOME/.config/fish/tokyonight.fish
 
 abbr p "sudo pacman"
 abbr y "yay"
