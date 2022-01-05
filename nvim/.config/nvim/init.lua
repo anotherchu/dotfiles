@@ -25,8 +25,8 @@ end
 
 local paq = require("paq")
 paq({
-	{ "catppuccin/nvim", name = "catppuccin" },
 	"savq/paq-nvim",
+	"folke/tokyonight.nvim",
 	"ervandew/supertab",
 	"nvim-lua/popup.nvim",
 	"nvim-lua/plenary.nvim",
@@ -71,13 +71,11 @@ opt.mouse = "a"
 
 -- colorscheme settings
 opt.termguicolors = true
-require("catppuccin").setup({
-	transparent_background = true,
-	styles = {
-		comments = "italic",
-	},
-})
-cmd("colorscheme catppuccin")
+g.tokyonight_style = "storm"
+g.tokyonight_terminal_colors = true
+g.tokyonight_transparent = true
+g.tokyonight_lualine_bold = true
+cmd("colorscheme tokyonight")
 
 -- Cursor
 cmd("set guicursor=")
@@ -136,26 +134,8 @@ map("n", "<Leader>spell", ":set spell!<CR>", { silent = true })
 
 require("lualine").setup({
 	options = {
-		icons_enabled = true,
+		theme = "tokyonight",
 	},
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "branch" },
-		lualine_c = { "filename" },
-		lualine_x = { "encoding", "fileformat", "filetype" },
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
-	},
-	inactive_sections = {
-		lualine_a = {},
-		lualine_b = {},
-		lualine_c = { "filename" },
-		lualine_x = { "location" },
-		lualine_y = {},
-		lualine_z = {},
-	},
-	tabline = {},
-	extensions = {},
 })
 opt.showmode = false
 
