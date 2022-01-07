@@ -26,8 +26,6 @@ end
 local paq = require("paq")
 paq({
 	"savq/paq-nvim",
-	"folke/tokyonight.nvim",
-	"ervandew/supertab",
 	"nvim-lua/popup.nvim",
 	"nvim-lua/plenary.nvim",
 	"nvim-telescope/telescope.nvim",
@@ -45,7 +43,7 @@ paq({
 	"folke/which-key.nvim",
 	"xiyaowong/nvim-transparent",
 	"lambdalisue/suda.vim",
-	"voldikss/vim-floaterm",
+	"akinsho/toggleterm.nvim",
 	"norcalli/nvim-colorizer.lua",
 
 	-- LSP Plugins and Autocompletion
@@ -64,18 +62,30 @@ paq({
 	"tami5/lspsaga.nvim",
 	"kyazdani42/nvim-web-devicons",
 	"akinsho/bufferline.nvim",
+	{ "catppuccin/nvim", as = "catppuccin" },
+	"lukas-reineke/indent-blankline.nvim",
 })
 
 -- Enable mouse
 opt.mouse = "a"
 
 -- colorscheme settings
-opt.termguicolors = true
-g.tokyonight_style = "storm"
-g.tokyonight_terminal_colors = true
-g.tokyonight_transparent = true
-g.tokyonight_lualine_bold = true
-cmd("colorscheme tokyonight")
+require("catppuccin").setup({
+	term_colors = true,
+	transparent_background = true,
+	integrations = {
+		lsp_trouble = false,
+		gitgutter = false,
+		notify = false,
+		nvimtree = {
+			enabled = false,
+		},
+		telekasten = false,
+		lsp_saga = true,
+		which_key = true,
+	},
+})
+cmd("colorscheme catppuccin")
 
 -- Cursor
 cmd("set guicursor=")
@@ -112,6 +122,12 @@ g.SuperTabDefaultCompletionType = "<C-n>"
 -- Suda.vim
 g.suda_smart_edit = 1
 
+-- vim-visual-multi
+cmd("let g:VM_show_warnings = 0")
+cmd("let g:VM_maps = {}")
+cmd('let g:VM_maps["Find Under"] = "<C-s>"')
+cmd('let g:VM_maps["Find Subword Under"] = "<C-s>"')
+
 -- Scrolls when 8 columns away from edge
 opt.scrolloff = 10
 
@@ -132,12 +148,11 @@ nexec(
 )
 map("n", "<Leader>spell", ":set spell!<CR>", { silent = true })
 
-require("lualine").setup({
-	options = {
-		theme = "tokyonight",
-	},
-})
 opt.showmode = false
+
+-- Manage windows
+map("", "<Leader>more", "5<C-w>+")
+map("", "<Leader>less", "5<C-w>-")
 
 -- Move lines up or down
 map("n", "<C-j>", ":m .+1<cr>==", { silent = true })
@@ -160,8 +175,14 @@ map("", "<Leader>m", "mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm") -- Remove Windows' ^M f
 map("", "<Leader><cr>", ":noh<cr>", { silent = true }) -- Remove hightlights
 map("", "<Leader>cd", ":cd %:p:h<cr>:pwd<cr>") -- Change pwd to current buffer path
 
--- telescope.nvim
+-- lualine.nvim
+require("lualine").setup({
+	options = {
+		theme = "catppuccin",
+	},
+})
 
+-- telescope.nvim
 map("n", "<C-f>", ":Telescope find_files find_command=rg,--ignore,--hidden,--files<cr>")
 map("n", "<Leader>o", "<cmd>Telescope buffers<cr>")
 map("n", "<Leader>r", "<cmd>Telescope live_grep<cr>")
@@ -195,7 +216,6 @@ require("nvim-treesitter.configs").setup({
 })
 
 -- LSP
-
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 require("lspfuzzy").setup({})
 
@@ -326,13 +346,11 @@ require("nvim-autopairs").setup({})
 require("Comment").setup({})
 
 -- Floaterm.nvim
-g.floaterm_keymap_toggle = "<Leader>ft"
-if vim.loop.os_uname().sysname == "Windows_NT" then
-	g.floaterm_shell = "powershell"
-else
-	g.floaterm_shell = "fish"
-end
-
+local shell = vim.loop.os_uname().sysname == "Windows_NT" and "powershell" or "fish"
+require("toggleterm").setup({
+	shell = shell,
+})
+map("n", "<Leader>ft", ":ToggleTerm<cr>")
 map("t", "<Esc>", "<C-\\><C-n>")
 
 -- formatter
@@ -351,7 +369,8 @@ null_ls.setup({
 	end,
 })
 
-map("n", "<Leader>f", ":lua vim.lsp.buf.formatting()<CR>", { silent = true })
+map("n", "<Leader>format", ":lua vim.lsp.buf.formatting()<CR>", { silent = true })
+
 require("which-key").setup({})
 
 require("bufferline").setup({})
@@ -368,16 +387,16 @@ require("transparent").setup({
 	},
 })
 
+-- Thesaurus
 require("aiksaurus")
 map("n", "<Leader>thes", "ea<C-x><C-t>", { silent = true })
 
+require("indent_blankline").setup({
+	show_current_context = true,
+})
+
 require("colorizer").setup()
 
--- vim-visual-multi
-cmd("let g:VM_show_warnings = 0")
-cmd("let g:VM_maps = {}")
-cmd('let g:VM_maps["Find Under"] = "<C-s>"')
-cmd('let g:VM_maps["Find Subword Under"] = "<C-s>"')
 -- Fast edit and reload of this config file
 map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<cr>")
 cmd("au! BufWritePost $HOME/.dotfiles/nvim/.config/nvim/init.lua source %")

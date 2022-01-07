@@ -114,7 +114,6 @@ font:
     family: SFMono Nerd Font Mono
 
     # The `style` can be specified to pick a specific face.
-    style: Semibold
 
   # Bold font face
   bold:
@@ -125,7 +124,6 @@ font:
     family: SFMono Nerd Font Mono
 
     # The `style` can be specified to pick a specific face.
-    style: Bold
 
   # Italic font face
   italic:
@@ -136,7 +134,6 @@ font:
     family: SFMono Nerd Font Mono
 
     # The `style` can be specified to pick a specific face.
-    style: Italic
 
   # Bold italic font face
   #bold_italic:
@@ -945,4 +942,4 @@ schemes:
       - { index: 16, color: "#F2CECF" }
       - { index: 17, color: "#3E4058" }
 
-colors: *tokyo-night-storm
+colors: *catppuccin
