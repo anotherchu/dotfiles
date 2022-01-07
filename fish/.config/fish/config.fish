@@ -2,6 +2,7 @@ fish_vi_key_bindings
 
 source $HOME/.config/fish/tokyonight.fish
 
+abbr n "nvim"
 abbr p "sudo pacman"
 abbr y "yay"
 abbr dcu "docker compose up"
@@ -14,7 +15,6 @@ abbr gp "git push"
 #source $HOME/work/.config/fish/abbr.fish
 alias cat="bat"
 alias ls="exa"
-alias n="nvim"
 
 set fzf_preview_dir_cmd exa --all --color=always
 set fzf_fd_opts -uu -i -L --exclude=.git

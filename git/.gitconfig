@@ -11,3 +11,5 @@
 	yolo = !git commit -m \"$(curl -s whatthecommit.com/index.txt)\"
 [gpg]
 	program = gpg
+[advice]
+    addIgnoredFile = false

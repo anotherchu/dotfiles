@@ -44,9 +44,7 @@ paq({
 	"xiyaowong/nvim-transparent",
 	"lambdalisue/suda.vim",
 	"akinsho/toggleterm.nvim",
-	"norcalli/nvim-colorizer.lua",
-
-	-- LSP Plugins and Autocompletion
+	{ "rrethy/vim-hexokinase", run = "make hexokinase" },
 	"williamboman/nvim-lsp-installer",
 	"jose-elias-alvarez/null-ls.nvim",
 	"neovim/nvim-lspconfig",
@@ -62,13 +60,12 @@ paq({
 	"tami5/lspsaga.nvim",
 	"kyazdani42/nvim-web-devicons",
 	"akinsho/bufferline.nvim",
-	{ "catppuccin/nvim", as = "catppuccin" },
 	"lukas-reineke/indent-blankline.nvim",
+	{ "catppuccin/nvim", as = "catppuccin" },
 })
 
 -- Enable mouse
 opt.mouse = "a"
-
 -- colorscheme settings
 require("catppuccin").setup({
 	term_colors = true,
@@ -127,6 +124,9 @@ cmd("let g:VM_show_warnings = 0")
 cmd("let g:VM_maps = {}")
 cmd('let g:VM_maps["Find Under"] = "<C-s>"')
 cmd('let g:VM_maps["Find Subword Under"] = "<C-s>"')
+
+-- Hexakinase
+g.Hexokinase_optInPatterns = "full_hex,rgb,rgba, hsl, hsla"
 
 -- Scrolls when 8 columns away from edge
 opt.scrolloff = 10
@@ -394,8 +394,6 @@ map("n", "<Leader>thes", "ea<C-x><C-t>", { silent = true })
 require("indent_blankline").setup({
 	show_current_context = true,
 })
-
-require("colorizer").setup()
 
 -- Fast edit and reload of this config file
 map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<cr>")
