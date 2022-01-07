@@ -151,8 +151,8 @@ map("n", "<Leader>spell", ":set spell!<CR>", { silent = true })
 opt.showmode = false
 
 -- Manage windows
-map("", "<Leader>more", "5<C-w>+")
-map("", "<Leader>less", "5<C-w>-")
+map("", "<Leader>wmore", "5<C-w>+")
+map("", "<Leader>wless", "5<C-w>-")
 
 -- Move lines up or down
 map("n", "<C-j>", ":m .+1<cr>==", { silent = true })
@@ -183,9 +183,9 @@ require("lualine").setup({
 })
 
 -- telescope.nvim
-map("n", "<C-f>", ":Telescope find_files find_command=rg,--ignore,--hidden,--files<cr>")
-map("n", "<Leader>o", "<cmd>Telescope buffers<cr>")
-map("n", "<Leader>r", "<cmd>Telescope live_grep<cr>")
+map("n", "<C-f>", ":Telescope find_files find_command=rg,--ignore,--hidden,--files<cr>", { silent = true })
+map("n", "<Leader>o", "<cmd>Telescope buffers<cr>", { silent = true })
+map("n", "<Leader>r", "<cmd>Telescope live_grep<cr>", { silent = true })
 
 require("telescope").setup({
 	extensions = {
