@@ -6,6 +6,7 @@ local g = vim.g
 local opt = vim.opt
 local home_dir = os.getenv("HOME")
 
+-- Haven't encountered any issues with fish as the default shell yet. If do, uncomment this
 -- nexec(
 -- 	[[
 -- if &shell =~# 'fish$'
@@ -14,8 +15,8 @@ local home_dir = os.getenv("HOME")
 -- ]],
 -- 	true
 -- )
---
-g.mapleader = ","
+
+g.mapleader = "," -- test
 
 local function map(mode, lhs, rhs, opts)
 	local options = { noremap = true }
@@ -73,7 +74,6 @@ paq({
 	"lukas-reineke/indent-blankline.nvim",
 	{ "catppuccin/nvim", as = "catppuccin" },
 	"andweeb/presence.nvim",
-	"PlatyPew/format-installer.nvim",
 })
 
 -- Enable mouse
@@ -379,25 +379,13 @@ map("t", "<Esc>", "<C-\\><C-n>")
 
 -- formatter
 local null_ls = require("null-ls")
-local formatter_install = require("format-installer")
-local formatters = { "black", "prettierd", "stylua", "google_java_format" } -- dependencies: virtualenv, npm, unzip, curl
-
-for _, name in ipairs(formatters) do
-	local formatter_is_found = formatter_install.exists(name)
-	if formatter_is_found then
-		if not formatter_install.is_installed(name) then
-			formatter_install.install_formatter(name)
-		end
-	end
-end
-
-local sources = {}
-for _, formatter in ipairs(formatter_install.get_installed_formatters()) do
-	local config = { command = formatter.cmd }
-	table.insert(sources, null_ls.builtins.formatting[formatter.name].with(config))
-end
 null_ls.setup({
-	sources = sources,
+	sources = {
+		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.prettierd,
+		null_ls.builtins.formatting.google_java_format,
+		null_ls.builtins.formatting.black,
+	},
 	on_attach = function(client)
 		if client.resolved_capabilities.document_formatting then
 			cmd("au BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
