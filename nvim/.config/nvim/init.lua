@@ -1,5 +1,7 @@
 local cmd = vim.cmd
+local fn = vim.fn
 local nexec = vim.api.nvim_exec
+local command = vim.api.nvim_command
 local g = vim.g
 local opt = vim.opt
 local home_dir = os.getenv("HOME")
@@ -13,7 +15,7 @@ endif
 	true
 )
 
-g.mapleader = "," -- test
+g.mapleader = ","
 
 local function map(mode, lhs, rhs, opts)
 	local options = { noremap = true }
@@ -23,6 +25,13 @@ local function map(mode, lhs, rhs, opts)
 	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+-- Install paq-nvim
+local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
+if fn.empty(fn.glob(install_path)) > 0 then
+	command("!git clone https://github.com/savq/paq-nvim.git " .. install_path)
+end
+
+cmd("packadd paq-nvim")
 local paq = require("paq")
 paq({
 	"savq/paq-nvim",
@@ -57,11 +66,13 @@ paq({
 	"hrsh7th/cmp-cmdline",
 	"hrsh7th/cmp-vsnip",
 	"hrsh7th/vim-vsnip",
+	"uga-rosa/cmp-dictionary",
 	"tami5/lspsaga.nvim",
 	"kyazdani42/nvim-web-devicons",
 	"akinsho/bufferline.nvim",
 	"lukas-reineke/indent-blankline.nvim",
 	{ "catppuccin/nvim", as = "catppuccin" },
+	"andweeb/presence.nvim",
 })
 
 -- Enable mouse
@@ -139,20 +150,22 @@ opt.signcolumn = "yes"
 opt.cmdheight = 1
 
 -- Spell checking
-nexec(
-	[[
-        set spelllang=en,cjk,pt_br
-        set spellsuggest=best,9
-    ]],
-	true
-)
+require("cmp_dictionary").setup({
+	dic = {
+		["markdown"] = { "/usr/share/dict/british-english" },
+	},
+})
+opt.spelllang = { "en", "cjk", "pt_br" }
+opt.spellsuggest = { "best", "9" }
 map("n", "<Leader>spell", ":set spell!<CR>", { silent = true })
 
 opt.showmode = false
 
 -- Manage windows
-map("", "<Leader>wmore", "5<C-w>+")
-map("", "<Leader>wless", "5<C-w>-")
+map("", "<Leader>wmax", "<C-w>_")
+map("", "<Leader>wequal", "<C-w>=")
+map("", "<Leader>wmore", "10<C-w>+")
+map("", "<Leader>wless", "10<C-w>-")
 
 -- Move lines up or down
 map("n", "<C-j>", ":m .+1<cr>==", { silent = true })
@@ -212,7 +225,7 @@ require("nvim-treesitter.configs").setup({
 		enable = false,
 		disable = {},
 	},
-	ensure_installed = "all",
+	-- ensure_installed = "all",
 })
 
 -- LSP
@@ -227,6 +240,15 @@ require("nvim-lsp-installer").on_server_ready(function(server)
 				Lua = {
 					diagnostics = { globals = { "vim" } },
 					runtime = { version = "Lua 5.1" },
+				},
+			},
+		}
+	end
+	if server.name == "ltex" then
+		opts = {
+			settings = {
+				ltex = {
+					language = "en-GB",
 				},
 			},
 		}
@@ -277,7 +299,7 @@ end
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			vim.fn["vsnip#anonymous"](args.body)
+			fn["vsnip#anonymous"](args.body)
 		end,
 	},
 	mapping = {
@@ -289,7 +311,7 @@ cmp.setup({
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif vim.fn["vsnip#available"](1) == 1 then
+			elseif fn["vsnip#available"](1) == 1 then
 				feedkey("<Plug>(vsnip-expand-or-jump)", "")
 			elseif has_words_before() then
 				cmp.complete()
@@ -300,7 +322,7 @@ cmp.setup({
 		["<S-Tab>"] = cmp.mapping(function()
 			if cmp.visible() then
 				cmp.select_prev_item()
-			elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+			elseif fn["vsnip#jumpable"](-1) == 1 then
 				feedkey("<Plug>(vsnip-jump-prev)", "")
 			end
 		end, { "i", "s" }),
@@ -312,6 +334,7 @@ cmp.setup({
 		{ name = "buffer" },
 		{ name = "calc" },
 		{ name = "treesitter" },
+		{ name = "dictionary", keyword_length = 2 },
 	}),
 	autocomplete = true,
 	documentation = {
@@ -394,6 +417,9 @@ map("n", "<Leader>thes", "ea<C-x><C-t>", { silent = true })
 require("indent_blankline").setup({
 	show_current_context = true,
 })
+
+vim.g.presence_neovim_image_text = "can your vim do this?"
+vim.g.presence_enable_line_number = 1
 
 -- Fast edit and reload of this config file
 map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<cr>")
