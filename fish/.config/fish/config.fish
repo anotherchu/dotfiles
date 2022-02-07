@@ -1,7 +1,5 @@
 fish_vi_key_bindings
 
-source $HOME/.config/fish/tokyonight.fish
-
 abbr n "nvim"
 abbr p "sudo pacman"
 abbr y "yay"
@@ -10,6 +8,7 @@ abbr dcd "docker compose down"
 abbr ga "git add"
 abbr gc "git commit -m"
 abbr gp "git push"
+abbr ssh "ssh -Y"
 
 
 #source $HOME/work/.config/fish/abbr.fish
