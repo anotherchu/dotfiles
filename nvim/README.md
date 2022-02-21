@@ -11,13 +11,8 @@ Install the following packages:
 - golang
 - make
 
-Install nvim
+## Installation
 
 Copy all files into `~/.config/nvim/`
 
 Open `nvim` and run `:PaqInstall`
-
-Also install formatters:
-
-- [prettier](https://prettier.io/docs/en/install.html)
-- [prettier-plugin-java](https://github.com/jhipster/prettier-java)
