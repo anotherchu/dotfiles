@@ -30,6 +30,7 @@ end
 local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
 	command("!git clone https://github.com/savq/paq-nvim.git " .. install_path)
+	command("PaqInstall")
 end
 
 cmd("packadd paq-nvim")
@@ -47,7 +48,6 @@ paq({
 	"junegunn/fzf",
 	"junegunn/fzf.vim",
 	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
-	"iamcco/markdown-preview.nvim",
 	{ "mg979/vim-visual-multi", branch = "master" },
 	"khaveesh/vim-fish-syntax",
 	"folke/which-key.nvim",
@@ -74,6 +74,7 @@ paq({
 	"lukas-reineke/indent-blankline.nvim",
 	{ "catppuccin/nvim", as = "catppuccin" },
 	"andweeb/presence.nvim",
+	"kdheepak/lazygit.nvim",
 })
 
 -- Enable mouse
@@ -173,6 +174,8 @@ map("n", "<C-j>", ":m .+1<cr>==", { silent = true })
 map("n", "<C-k>", ":m .-2<cr>==", { silent = true })
 map("i", "<C-j>", "<Esc>:m .+1<cr>==gi", { silent = true })
 map("i", "<C-k>", "<Esc>:m .-2<cr>==gi", { silent = true })
+map("v", "<C-j>", ":m '>+1<CR>gv=gv", { silent = true })
+map("v", "<C-k>", ":m '<-2<CR>gv=gv", { silent = true })
 
 --- Keep indenting selected on visual mode
 map("v", "<", "<gv")
