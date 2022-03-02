@@ -27,15 +27,7 @@ local function map(mode, lhs, rhs, opts)
 end
 
 -- Install paq-nvim
-local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-	command("!git clone https://github.com/savq/paq-nvim.git " .. install_path)
-	command("PaqInstall")
-end
-
-cmd("packadd paq-nvim")
-local paq = require("paq")
-paq({
+local PKGS = {
 	"savq/paq-nvim",
 	"nvim-lua/popup.nvim",
 	"nvim-lua/plenary.nvim",
@@ -47,7 +39,7 @@ paq({
 	"numToStr/Comment.nvim",
 	"junegunn/fzf",
 	"junegunn/fzf.vim",
-	{ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" },
+	{ "nvim-treesitter/nvim-treesitter" },
 	{ "mg979/vim-visual-multi", branch = "master" },
 	"khaveesh/vim-fish-syntax",
 	"folke/which-key.nvim",
@@ -75,7 +67,25 @@ paq({
 	{ "catppuccin/nvim", as = "catppuccin" },
 	"andweeb/presence.nvim",
 	"kdheepak/lazygit.nvim",
-})
+}
+local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
+if fn.empty(fn.glob(install_path)) > 0 then
+	command("echo 'Installing plugin manager (paq)... Please reopen neovim after installing all plugins.'")
+	command("silent! !git clone https://github.com/savq/paq-nvim.git " .. install_path)
+	command("packadd paq-nvim")
+	command("au User PaqDoneInstall exit")
+	require("paq")(PKGS)
+	require("paq").install()
+	INSTALL = 1
+end
+
+if INSTALL == 1 then
+	return
+end
+
+command("packadd paq-nvim")
+local paq = require("paq")
+paq(PKGS)
 
 -- Enable mouse
 opt.mouse = "a"
@@ -95,10 +105,10 @@ require("catppuccin").setup({
 		which_key = true,
 	},
 })
-cmd("colorscheme catppuccin")
+command("colorscheme catppuccin")
 
 -- Cursor
-cmd("set guicursor=")
+command("set guicursor=")
 opt.cursorline = true
 
 -- Line numbers
@@ -133,10 +143,10 @@ g.SuperTabDefaultCompletionType = "<C-n>"
 g.suda_smart_edit = 1
 
 -- vim-visual-multi
-cmd("let g:VM_show_warnings = 0")
-cmd("let g:VM_maps = {}")
-cmd('let g:VM_maps["Find Under"] = "<C-s>"')
-cmd('let g:VM_maps["Find Subword Under"] = "<C-s>"')
+command("let g:VM_show_warnings = 0")
+command("let g:VM_maps = {}")
+command('let g:VM_maps["Find Under"] = "<C-s>"')
+command('let g:VM_maps["Find Subword Under"] = "<C-s>"')
 
 -- Hexakinase
 g.Hexokinase_optInPatterns = "full_hex,rgb,rgba, hsl, hsla"
@@ -391,7 +401,7 @@ null_ls.setup({
 	},
 	on_attach = function(client)
 		if client.resolved_capabilities.document_formatting then
-			cmd("au BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()")
+			command("au BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync()")
 		end
 	end,
 })
@@ -427,14 +437,14 @@ vim.g.presence_enable_line_number = 1
 
 -- Fast edit and reload of this config file
 map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<cr>")
-cmd("au! BufWritePost $HOME/.dotfiles/nvim/.config/nvim/init.lua source %")
+command("au! BufWritePost $HOME/.dotfiles/nvim/.config/nvim/init.lua source %")
 
-cmd("au BufWritePre * :%s/\\s\\+$//e") -- Autoremove trailing whitespaces
+command("au BufWritePre * :%s/\\s\\+$//e") -- Autoremove trailing whitespaces
 
 -- Return to last edit position
-cmd('au BufReadPost * if line("\'\\"") > 1 && line("\'\\"") <= line("$") | exe "normal! g\'\\"" | endif')
+command('au BufReadPost * if line("\'\\"") > 1 && line("\'\\"") <= line("$") | exe "normal! g\'\\"" | endif')
 
 -- Per filetype indent size
-cmd("au FileType html setlocal sw=2 ts=2 sts=2")
-cmd("au FileType java setlocal sw=2 ts=2 sts=2")
-cmd("au FileType typescript setlocal sw=2 ts=2 sts=2")
+command("au FileType html setlocal sw=2 ts=2 sts=2")
+command("au FileType java setlocal sw=2 ts=2 sts=2")
+command("au FileType typescript setlocal sw=2 ts=2 sts=2")
