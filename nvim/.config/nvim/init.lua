@@ -76,10 +76,6 @@ if fn.empty(fn.glob(install_path)) > 0 then
 	command("au User PaqDoneInstall exit")
 	require("paq")(PKGS)
 	require("paq").install()
-	INSTALL = 1
-end
-
-if INSTALL == 1 then
 	return
 end
 
