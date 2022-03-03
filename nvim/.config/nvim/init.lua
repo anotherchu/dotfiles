@@ -454,15 +454,17 @@ require("transparent").setup({
 })
 
 -- Thesaurus
+
 require("aiksaurus")
 map("n", "<Leader>thes", "ea<C-x><C-t>", { silent = true })
+
+require("dashboard")
 
 require("indent_blankline").setup({
 	show_current_context = true,
 })
-
-vim.g.presence_neovim_image_text = "can your vim do this?"
-vim.g.presence_enable_line_number = 1
+g.presence_neovim_image_text = "can your vim do this?"
+g.presence_enable_line_number = 1
 
 -- Fast edit and reload of this config file
 map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<cr>")
