@@ -75,6 +75,7 @@ local PKGS = {
 	{ "catppuccin/nvim", as = "catppuccin" },
 	"andweeb/presence.nvim",
 	"kdheepak/lazygit.nvim",
+	"glepnir/dashboard-nvim",
 }
 local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
