@@ -18,6 +18,14 @@ local home_dir = os.getenv("HOME")
 
 g.mapleader = "," -- test
 
+local function TSUpdate()
+	local treesitter_path = fn.stdpath("data") .. "/site/pack/paqs/start/nvim-treesitter"
+	if not (fn.empty(fn.glob(treesitter_path)) > 0) then
+		command("packadd nvim-treesitter")
+		command("TSUpdate")
+	end
+end
+
 local function map(mode, lhs, rhs, opts)
 	local options = { noremap = true }
 	if opts then
@@ -39,7 +47,7 @@ local PKGS = {
 	"numToStr/Comment.nvim",
 	"junegunn/fzf",
 	"junegunn/fzf.vim",
-	{ "nvim-treesitter/nvim-treesitter" },
+	{ "nvim-treesitter/nvim-treesitter", run = TSUpdate() },
 	{ "mg979/vim-visual-multi", branch = "master" },
 	"khaveesh/vim-fish-syntax",
 	"folke/which-key.nvim",
@@ -235,7 +243,32 @@ require("nvim-treesitter.configs").setup({
 		enable = false,
 		disable = {},
 	},
-	-- ensure_installed = "all",
+	ensure_installed = {
+		"c",
+		"java",
+		"bash",
+		"c_sharp",
+		"cmake",
+		"comment",
+		"cpp",
+		"css",
+		"dockerfile",
+		"elixir",
+		"fish",
+		"go",
+		"html",
+		"javascript",
+		"jsonc",
+		"latex",
+		"bibtex",
+		"lua",
+		"make",
+		"markdown",
+		"python",
+		"typescript",
+		"vim",
+		"yaml",
+	},
 })
 
 -- LSP
