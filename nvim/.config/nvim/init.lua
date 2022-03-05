@@ -21,7 +21,7 @@ local function TSUpdate()
 	local treesitter_path = fn.stdpath("data") .. "/site/pack/paqs/start/nvim-treesitter"
 	if not (fn.empty(fn.glob(treesitter_path)) > 0) then
 		command("packadd nvim-treesitter")
-		command("TSUpdate")
+		command("silent! TSUpdate")
 	end
 end
 
@@ -469,7 +469,7 @@ g.presence_neovim_image_text = "can your vim do this?"
 g.presence_enable_line_number = 1
 
 -- Fast edit and reload of this config file
-map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<CR>")
+map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<CR>", { silent = true })
 command("au! BufWritePost $HOME/.dotfiles/nvim/.config/nvim/init.lua source %")
 
 command("au BufWritePre * :%s/\\s\\+$//e") -- Autoremove trailing whitespaces

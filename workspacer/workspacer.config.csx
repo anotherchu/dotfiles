@@ -78,8 +78,6 @@ public class WorkspacerConfig{
     private void InitWorkspaces(){
         Func<ILayoutEngine[]> defaultLayouts = () => new ILayoutEngine[]{
             new TallLayoutEngine(),
-            new VertLayoutEngine(),
-            new HorzLayoutEngine(),
             new FullLayoutEngine(),
         };
         _context.DefaultLayouts = defaultLayouts;
