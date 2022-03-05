@@ -1,4 +1,3 @@
-local cmd = vim.cmd
 local fn = vim.fn
 local nexec = vim.api.nvim_exec
 local command = vim.api.nvim_command
@@ -94,6 +93,7 @@ paq(PKGS)
 
 -- Enable mouse
 opt.mouse = "a"
+
 -- colorscheme settings
 require("catppuccin").setup({
 	term_colors = true,
@@ -185,10 +185,10 @@ map("", "<Leader>wmore", "10<C-w>+")
 map("", "<Leader>wless", "10<C-w>-")
 
 -- Move lines up or down
-map("n", "<C-j>", ":m .+1<cr>==", { silent = true })
-map("n", "<C-k>", ":m .-2<cr>==", { silent = true })
-map("i", "<C-j>", "<Esc>:m .+1<cr>==gi", { silent = true })
-map("i", "<C-k>", "<Esc>:m .-2<cr>==gi", { silent = true })
+map("n", "<C-j>", ":m .+1<CR>==", { silent = true })
+map("n", "<C-k>", ":m .-2<CR>==", { silent = true })
+map("i", "<C-j>", "<Esc>:m .+1<CR>==gi", { silent = true })
+map("i", "<C-k>", "<Esc>:m .-2<CR>==gi", { silent = true })
 map("v", "<C-j>", ":m '>+1<CR>gv=gv", { silent = true })
 map("v", "<C-k>", ":m '<-2<CR>gv=gv", { silent = true })
 
@@ -197,15 +197,16 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Manage buffers
-map("", "<Leader>h", ":bprevious<cr>")
-map("", "<Leader>l", ":bnext<cr>")
-map("", "<Leader>bd", ":bd<cr>gT")
+map("", "<Leader>h", ":bprevious<CR>")
+map("", "<Leader>l", ":bnext<CR>")
+map("", "<Leader>bd", ":bd<CR>gT")
 
 -- Misc bindings
 -- map('','0','^') -- Make 0 go to first non whitespace character
-map("", "<Leader>m", "mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm") -- Remove Windows' ^M from buffer
-map("", "<Leader><cr>", ":noh<cr>", { silent = true }) -- Remove hightlights
-map("", "<Leader>cd", ":cd %:p:h<cr>:pwd<cr>") -- Change pwd to current buffer path
+map("", "<Leader>m", "mmHmt:%s/<C-V><CR>//ge<CR>'tzt'm") -- Remove Windows' ^M from buffer
+map("", "<Leader><CR>", ":noh<CR>", { silent = true }) -- Remove hightlights
+map("", "<Leader>cd", ":cd %:p:h<CR>:pwd<CR>") -- Change pwd to current buffer path
+map("v", "<C-C>", '"+y')
 
 -- lualine.nvim
 require("lualine").setup({
@@ -215,9 +216,9 @@ require("lualine").setup({
 })
 
 -- telescope.nvim
-map("n", "<C-f>", ":Telescope find_files find_command=rg,--ignore,--hidden,--files<cr>", { silent = true })
-map("n", "<Leader>o", "<cmd>Telescope buffers<cr>", { silent = true })
-map("n", "<Leader>r", "<cmd>Telescope live_grep<cr>", { silent = true })
+map("n", "<C-f>", ":Telescope find_files find_command=rg,--ignore,--hidden,--files<CR>", { silent = true })
+map("n", "<Leader>o", "<cmd>Telescope buffers<CR>", { silent = true })
+map("n", "<Leader>r", "<cmd>Telescope live_grep<CR>", { silent = true })
 
 require("telescope").setup({
 	extensions = {
@@ -300,8 +301,8 @@ require("nvim-lsp-installer").on_server_ready(function(server)
 	server:setup(opts)
 end)
 
-map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", { silent = true })
-map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { silent = true })
+map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { silent = true })
+map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
 
 require("lspsaga").init_lsp_saga({
 	border_style = "round",
@@ -319,14 +320,14 @@ require("lspsaga").init_lsp_saga({
 	},
 })
 
-map("n", "<Leader>sc", '<cmd>lua require("lspsaga.codeaction").code_action()<cr>', { silent = true })
-map("n", "<Leader>sh", ":Lspsaga hover_doc<cr>", { silent = true })
-map("n", "<Leader>sf", ":Lspsaga lsp_finder<cr>", { silent = true })
-map("i", "<leader>ss", "<cmd>Lspsaga signature_help<cr>", { silent = true })
-map("n", "<Leader>sr", "<cmd>Lspsaga rename<cr>")
-map("n", "<Leader>sdj", "<cmd>Lspsaga diagnostic_jump_next<cr>")
-map("n", "<Leader>sdk", "<cmd>Lspsaga diagnostic_jump_prev<cr>")
-map("n", "<Leader>sld", '<cmd>lua require"lspsaga.diagnostic".show_line_diagnostics()<cr>')
+map("n", "<Leader>sc", '<cmd>lua require("lspsaga.codeaction").code_action()<CR>', { silent = true })
+map("n", "<Leader>sh", ":Lspsaga hover_doc<CR>", { silent = true })
+map("n", "<Leader>sf", ":Lspsaga lsp_finder<CR>", { silent = true })
+map("i", "<leader>ss", "<cmd>Lspsaga signature_help<CR>", { silent = true })
+map("n", "<Leader>sr", "<cmd>Lspsaga rename<CR>")
+map("n", "<Leader>sdj", "<cmd>Lspsaga diagnostic_jump_next<CR>")
+map("n", "<Leader>sdk", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
+map("n", "<Leader>sld", '<cmd>lua require"lspsaga.diagnostic".show_line_diagnostics()<CR>')
 
 -- Autocompletion
 opt.completeopt = "menu,menuone,noselect"
@@ -417,7 +418,7 @@ local shell = vim.loop.os_uname().sysname == "Windows_NT" and "powershell" or "f
 require("toggleterm").setup({
 	shell = shell,
 })
-map("n", "<Leader>ft", ":ToggleTerm<cr>")
+map("n", "<Leader>ft", ":ToggleTerm<CR>")
 map("t", "<Esc>", "<C-\\><C-n>")
 
 -- formatter
@@ -468,7 +469,7 @@ g.presence_neovim_image_text = "can your vim do this?"
 g.presence_enable_line_number = 1
 
 -- Fast edit and reload of this config file
-map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<cr>")
+map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<CR>")
 command("au! BufWritePost $HOME/.dotfiles/nvim/.config/nvim/init.lua source %")
 
 command("au BufWritePre * :%s/\\s\\+$//e") -- Autoremove trailing whitespaces

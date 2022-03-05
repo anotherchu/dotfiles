@@ -15,4 +15,4 @@ Install the following packages:
 
 Copy all files into `~/.config/nvim/`
 
-Open `nvim` and run `:PaqInstall`
+Open `nvim` and the plugin installation will begin. If there are no errors, nvim will close itself. Simply, reopen and use away.
