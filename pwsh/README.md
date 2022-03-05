@@ -1,4 +1,4 @@
-# powershell files
+# powershell
 
 ## Requirements
 
@@ -10,6 +10,6 @@
 
 ## Usage
 
-Place in $PROFILE. For pwsh 7 installed via choco, this would be:
+Place profile file as shown by $PROFILE. For pwsh 7 installed via choco, this would be:
 
-~\Documents\PowerShell\
+- ~\Documents\PowerShell\
