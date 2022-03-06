@@ -9,7 +9,7 @@ if (Test-Path($ChocolateyProfile)) {
 }
 
 Set-Alias -Name n -Value nvim
-Set-Alias -Name z -Value j
+Set-Alias -Name j -Value z
 
 Set-PSReadLineOption -PredictionSource History
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
