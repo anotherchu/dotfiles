@@ -416,7 +416,7 @@ require("nvim-autopairs").setup({})
 require("Comment").setup({})
 
 -- Floaterm.nvim
-local shell = vim.loop.os_uname().sysname == "Windows_NT" and "powershell" or "fish"
+local shell = vim.loop.os_uname().sysname == "Windows_NT" and "pwsh" or "fish"
 require("toggleterm").setup({
 	shell = shell,
 })
