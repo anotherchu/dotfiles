@@ -16,14 +16,8 @@
             "style": "agnoster_short"
           },
           "style": "plain",
-          "template": " {{ .Path }} ",
+          "template": " {{ .Path }}",
           "type": "path"
-        },
-        {
-          "foreground": "#9e7eff",
-          "style": "powerline",
-          "template": "(\ue235 {{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }}) ",
-          "type": "python"
         },
         {
           "foreground": "#FFFFFF",
@@ -31,7 +25,7 @@
             "branch_icon": ""
           },
           "style": "plain",
-          "template": "({{ .HEAD }})",
+          "template": " ({{ .HEAD }})",
           "type": "git"
         },
         {
