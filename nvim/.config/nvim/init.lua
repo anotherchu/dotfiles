@@ -349,11 +349,11 @@ cmp.setup({
 			fn["vsnip#anonymous"](args.body)
 		end,
 	},
-	mapping = {
-		["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-		["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-		["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-		["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
+	mapping = cmp.mapping.preset.insert({
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.abort(),
 		["<CR>"] = cmp.mapping.confirm({ select = false }),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
@@ -365,15 +365,15 @@ cmp.setup({
 			else
 				fallback()
 			end
-		end, { "i", "s" }),
+		end),
 		["<S-Tab>"] = cmp.mapping(function()
 			if cmp.visible() then
 				cmp.select_prev_item()
 			elseif fn["vsnip#jumpable"](-1) == 1 then
 				feedkey("<Plug>(vsnip-jump-prev)", "")
 			end
-		end, { "i", "s" }),
-	},
+		end),
+	}),
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "vsnip" },
@@ -384,13 +384,15 @@ cmp.setup({
 		{ name = "dictionary", keyword_length = 2 },
 	}),
 	autocomplete = true,
-	documentation = {
-		border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-		winhighlight = "NormalFloat:NormalFloat,FloatBorder:NormalFloat",
-		max_width = 120,
-		min_width = 60,
-		max_height = math.floor(vim.o.lines * 0.3),
-		min_height = 1,
+	window = {
+		documentation = {
+			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+			winhighlight = "NormalFloat:NormalFloat,FloatBorder:NormalFloat",
+			max_width = 120,
+			min_width = 60,
+			max_height = math.floor(vim.o.lines * 0.3),
+			min_height = 1,
+		},
 	},
 	formatting = {
 		format = function(entry, vim_item)
