@@ -4,13 +4,20 @@
 
 Clone this repository under your home directory. Usually I clone into `~/.dotfiles`:
 
-`$ git clone https://github.com/thiag0mei/dotfiles ~/.dotfiles`
+```console
+git clone https://github.com/thiag0mei/dotfiles ~/.dotfiles
+```
 
-Ensure conflicting files don't already exist by deleting them:
+Ensure any conflicting files don't already exist by deleting them, for example:
 
-`$ rm ~/.config/fish/config.fish`
+```console
+rm ~/.config/fish/config.fish
+```
 
 Using `stow`, symlink the files to the appropriate .config subdirectory. This is done by simply running:
 
-`$ cd ~/.dotfiles && stow nvim/`
+```console
+cd ~/.dotfiles && stow nvim/
+```
 
+**NOTE**: Don't forget the trailing `/` in the `stow <dir>/` command as otherwise the parent directory `dir` will be symlinked instead of its contents.
