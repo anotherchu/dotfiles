@@ -12,5 +12,5 @@ Ensure conflicting files don't already exist by deleting them:
 
 Using `stow`, symlink the files to the appropriate .config subdirectory. This is done by simply running:
 
-`$ cd ~/.dotfiles && stow nvim`
+`$ cd ~/.dotfiles && stow nvim/`
 
