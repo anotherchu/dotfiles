@@ -6,7 +6,7 @@ Clone this repository under your home directory. Usually I clone into `~/.dotfil
 
 `$ git clone https://github.com/thiag0mei/dotfiles ~/.dotfiles`
 
-Ensure conflicting file don't already exist by deleting them:
+Ensure conflicting files don't already exist by deleting them:
 
 `$ rm ~/.config/fish/config.fish`
 
