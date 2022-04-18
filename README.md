@@ -17,7 +17,5 @@ rm ~/.config/fish/config.fish
 Using `stow`, symlink the files to the appropriate .config subdirectory. This is done by simply running:
 
 ```console
-cd ~/.dotfiles && stow nvim/
+cd ~/.dotfiles && stow nvim
 ```
-
-**NOTE**: Don't forget the trailing `/` in the `stow <dir>/` command as otherwise the parent directory `dir` will be symlinked instead of its contents.
