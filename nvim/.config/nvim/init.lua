@@ -283,10 +283,15 @@ require("nvim-lsp-installer").on_server_ready(function(server)
 	local opts = { capabilities = capabilities }
 	if server.name == "sumneko_lua" then
 		opts = {
+			capabilities = capabilities,
 			settings = {
 				Lua = {
 					diagnostics = { globals = { "vim" } },
-					runtime = { version = "Lua 5.1" },
+					runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
+					workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+					telemetry = {
+						enable = false,
+					},
 				},
 			},
 		}
@@ -365,14 +370,14 @@ cmp.setup({
 			else
 				fallback()
 			end
-		end),
+		end, { "i", "s" }),
 		["<S-Tab>"] = cmp.mapping(function()
 			if cmp.visible() then
 				cmp.select_prev_item()
 			elseif fn["vsnip#jumpable"](-1) == 1 then
 				feedkey("<Plug>(vsnip-jump-prev)", "")
 			end
-		end),
+		end, { "i", "s" }),
 	}),
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
