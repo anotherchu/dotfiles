@@ -2,6 +2,8 @@
 
 ## Requirements
 
+*  nvim>=0.7
+
 Install the following packages:
 
 - git
