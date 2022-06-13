@@ -75,6 +75,8 @@ local PKGS = {
 	"glepnir/dashboard-nvim",
 	"ellisonleao/glow.nvim",
 	"robbles/logstash.vim",
+	"github/copilot.vim",
+	"hrsh7th/cmp-copilot",
 }
 local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -288,7 +290,7 @@ require("nvim-lsp-installer").on_server_ready(function(server)
 			capabilities = capabilities,
 			settings = {
 				Lua = {
-					diagnostics = { globals = { "vim" } },
+					diagnostics = { globals = { "vim", "awesome" }, disable = { "lowercase-global" } },
 					runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
 					workspace = { library = vim.api.nvim_get_runtime_file("", true) },
 					telemetry = {
@@ -388,6 +390,7 @@ cmp.setup({
 		{ name = "calc" },
 		{ name = "treesitter" },
 		{ name = "dictionary", keyword_length = 2 },
+		{ name = "copilot" },
 	}),
 	autocomplete = true,
 	window = {
