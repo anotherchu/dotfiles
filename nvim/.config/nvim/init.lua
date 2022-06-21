@@ -72,8 +72,6 @@ local PKGS = {
     "lukas-reineke/indent-blankline.nvim",
     { "catppuccin/nvim", as = "catppuccin" },
     "andweeb/presence.nvim",
-    "glepnir/dashboard-nvim",
-    "ellisonleao/glow.nvim",
     "robbles/logstash.vim",
     "github/copilot.vim",
     "hrsh7th/cmp-copilot",
@@ -494,8 +492,6 @@ require("transparent").setup({
 
 require("aiksaurus")
 map("n", "<Leader>thes", "ea<C-x><C-t>", { silent = true })
-
-require("dashboard")
 
 require("indent_blankline").setup({
     show_current_context = true,
