@@ -313,12 +313,7 @@ map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
 
 require("lspsaga").init_lsp_saga({
     border_style = "round",
-    use_saga_diagnostic_sign = true,
-    error_sign = "E",
-    warn_sign = "--",
-    hint_sign = "H",
-    infor_sign = "I",
-    diagnostic_header_icon = "> ",
+    diagnostic_header_icon = {"E", "--", "H", "I"},
     finder_action_keys = {
         quit = "<Esc>",
     },
