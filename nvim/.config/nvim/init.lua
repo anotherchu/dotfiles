@@ -280,40 +280,48 @@ require("nvim-treesitter.configs").setup({
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 require("lspfuzzy").setup({})
 
-require("nvim-lsp-installer").on_server_ready(function(server)
-    local opts = { capabilities = capabilities }
-    if server.name == "sumneko_lua" then
-        opts = {
-            capabilities = capabilities,
-            settings = {
-                Lua = {
-                    diagnostics = { globals = { "vim", "awesome" }, disable = { "lowercase-global" } },
-                    runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
-                    workspace = { library = vim.api.nvim_get_runtime_file("", true) },
-                    telemetry = {
-                        enable = false,
-                    },
+require("nvim-lsp-installer").setup({})
+
+local lsp_util = require("lspconfig.util")
+
+lsp_util.default_config = vim.tbl_extend("force", lsp_util.default_config, {
+    capabilities = capabilities,
+})
+
+local lspconfig = require("lspconfig")
+
+lspconfig.sumneko_lua.setup({
+    settings = {
+        Lua = {
+            diagnostics = { globals = { "vim", "awesome" }, disable = { "lowercase-global" } },
+            runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
+            workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+})
+
+lspconfig.pylsp.setup({
+    settings = {
+        pylsp = {
+            plugins = {
+                pycodestyle = {
+                    ignore = { "E501", "W503" },
                 },
             },
-        }
-    elseif server.name == "ltex" then
-        opts = {
-            settings = {
-                ltex = {
-                    language = "en-GB",
-                },
-            },
-        }
-    end
-    server:setup(opts)
-end)
+        },
+    },
+})
 
 map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { silent = true })
 map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
 
 require("lspsaga").init_lsp_saga({
     border_style = "round",
-    diagnostic_header_icon = {"E", "--", "H", "I"},
+    -- Error, Warn, Info, Hint
+    diagnostic_header_icon = { "E", "--", "H", "I" },
     finder_action_keys = {
         quit = "<Esc>",
     },
