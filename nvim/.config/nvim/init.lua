@@ -207,6 +207,7 @@ map("", "<Leader>m", "mmHmt:%s/<C-V><CR>//ge<CR>'tzt'm") -- Remove Windows' ^M f
 map("", "<Leader><CR>", ":noh<CR>", { silent = true }) -- Remove hightlights
 map("", "<Leader>cd", ":cd %:p:h<CR>:pwd<CR>") -- Change pwd to current buffer path
 map("v", "<C-C>", '"+y')
+map("", "<C-V>", '"+p')
 
 -- Copilot keybind
 map("", "<Leader>co", ":Copilot<CR>", { silent = true })
