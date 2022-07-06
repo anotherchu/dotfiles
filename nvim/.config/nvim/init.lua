@@ -66,7 +66,7 @@ local PKGS = {
     "hrsh7th/cmp-vsnip",
     "hrsh7th/vim-vsnip",
     "uga-rosa/cmp-dictionary",
-    "glepnir/lspsaga.nvim",
+    { "glepnir/lspsaga.nvim", branch = "main" },
     "kyazdani42/nvim-web-devicons",
     "akinsho/bufferline.nvim",
     "lukas-reineke/indent-blankline.nvim",
@@ -227,7 +227,7 @@ require("telescope").setup({
     extensions = {
         fzf = {
             fuzzy = true,
-            override_generic_sorter = false,
+            override_generic_sorter = true,
             override_file_server = true,
             case_mode = "smart_case",
         },
@@ -329,6 +329,9 @@ require("lspsaga").init_lsp_saga({
     },
     code_action_keys = {
         quit = "<Esc>",
+    },
+    code_action_lightbulb = {
+        virtual_text = false,
     },
 })
 
@@ -479,7 +482,12 @@ map("n", "<Leader>format", ":lua vim.lsp.buf.formatting()<CR>", { silent = true 
 
 require("which-key").setup({})
 
-require("bufferline").setup({})
+require("bufferline").setup({
+    options = {
+        show_buffer_close_icons = false,
+        show_close_icon = false,
+    },
+})
 
 require("transparent").setup({
     enable = true,
