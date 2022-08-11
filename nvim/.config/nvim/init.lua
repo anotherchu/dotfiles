@@ -311,7 +311,17 @@ lspconfig.pylsp.setup({
         pylsp = {
             plugins = {
                 pycodestyle = {
-                    ignore = { "E501", "W503" },
+                    enabled = false,
+                },
+                mccabe = {
+                    enabled = false,
+                },
+                pyflakes = {
+                    enabled = false,
+                },
+                flake8 = {
+                    enabled = true,
+                    ignore = { "E501", "W503", "F841" },
                 },
             },
         },
@@ -322,7 +332,6 @@ map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { silent = true })
 map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
 
 require("lspsaga").init_lsp_saga({
-    border_style = "round",
     -- Error, Warn, Info, Hint
     diagnostic_header = { "E", "--", "H", "I" },
     finder_action_keys = {
@@ -334,6 +343,7 @@ require("lspsaga").init_lsp_saga({
     code_action_lightbulb = {
         virtual_text = false,
     },
+    rename_action_quit = "<Esc>",
 })
 
 map("n", "<Leader>sc", '<cmd>lua require("lspsaga.codeaction").code_action()<CR>', { silent = true })
@@ -398,7 +408,6 @@ cmp.setup({
         { name = "dictionary", keyword_length = 2 },
         { name = "copilot" },
     }),
-    autocomplete = true,
     window = {
         documentation = {
             border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
