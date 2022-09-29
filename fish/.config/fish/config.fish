@@ -9,6 +9,7 @@ abbr ga "git add"
 abbr gc "git commit -m"
 abbr gp "git push"
 abbr ssh "ssh -Y"
+abbr oci "oci --auth security_token"
 
 
 #source $HOME/work/.config/fish/abbr.fish
