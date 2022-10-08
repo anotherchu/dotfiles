@@ -68,7 +68,7 @@ local PKGS = {
     "uga-rosa/cmp-dictionary",
     { "glepnir/lspsaga.nvim", branch = "main" },
     "kyazdani42/nvim-web-devicons",
-    "akinsho/bufferline.nvim",
+    -- "akinsho/bufferline.nvim",
     "lukas-reineke/indent-blankline.nvim",
     { "catppuccin/nvim", as = "catppuccin" },
     "andweeb/presence.nvim",
@@ -165,6 +165,7 @@ opt.signcolumn = "yes"
 
 -- Statusline
 opt.cmdheight = 1
+opt.laststatus = 3
 
 -- Spell checking
 require("cmp_dictionary").setup({
@@ -213,16 +214,80 @@ map("", "<C-V>", '"+p')
 map("", "<Leader>co", ":Copilot<CR>", { silent = true })
 
 -- lualine.nvim
+-- require("lualine").setup({
+--     options = {
+--         theme = "catppuccin",
+--     },
+--     sections = {
+--         lualine_c = {
+--             "lsp_progress",
+--         },
+--     },
+-- })
+
 require("lualine").setup({
     options = {
-        theme = "catppuccin",
+        icons_enabled = true,
+        theme = "auto",
+        component_separators = { left = "|", right = "|" },
+        section_separators = { left = "", right = "" },
+        -- section_separators = { left = "\ue0b4", right = "\ue0b6" },
+        disabled_filetypes = {},
+        always_divide_middle = true,
+        globalstatus = true,
     },
+    sections = {
+        lualine_a = { "mode" },
+        lualine_b = { "branch", "diff", "diagnostics" },
+        lualine_c = {
+            {
+                "buffers",
+                show_filename_only = true, -- Shows shortened relative path when set to false.
+                hide_filename_extension = false, -- Hide filename extension when set to true.
+                show_modified_status = true, -- Shows indicator when the buffer is modified.
+
+                mode = 2,
+
+                max_length = vim.o.columns * 2 / 3, -- Maximum width of buffers component,
+
+                filetype_names = {
+                    TelescopePrompt = "Telescope",
+                },
+
+                buffers_color = {
+                    -- active = "lualine_d_normal", -- Color for active buffer.
+                    inactive = "lualine_d_inactive", -- Color for inactive buffer.
+                },
+                symbols = {
+                    modified = " \u{25cf}", -- Text to show when the buffer is modified
+                    alternate_file = "", -- Text to show to identify the alternate file
+                    directory = " \u{e5fe}",
+                },
+            },
+        },
+        lualine_d = {},
+        lualine_x = { "encoding", "fileformat", "filetype" },
+        lualine_y = { "progress" },
+        lualine_z = { "location" },
+    },
+    inactive_sections = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = { "filename" },
+        lualine_x = { "location" },
+        lualine_y = {},
+        lualine_z = {},
+    },
+    tabline = {},
+    extensions = {},
 })
 
 -- telescope.nvim
 map("n", "<C-f>", ":Telescope find_files find_command=rg,--ignore,--hidden,--files<CR>", { silent = true })
+map("n", "<C-b>", ":Telescope buffers<CR>", { silent = true })
 map("n", "<Leader>o", "<cmd>Telescope buffers<CR>", { silent = true })
 map("n", "<Leader>r", "<cmd>Telescope live_grep<CR>", { silent = true })
+map("n", "<Leader>d", "<cmd>Telescope diagnostics<CR>", { silent = true })
 
 require("telescope").setup({
     extensions = {
@@ -329,6 +394,7 @@ lspconfig.pylsp.setup({
 })
 
 lspconfig.tsserver.setup({})
+lspconfig.rust_analyzer.setup({})
 
 map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { silent = true })
 map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
@@ -348,14 +414,13 @@ require("lspsaga").init_lsp_saga({
     rename_action_quit = "<Esc>",
 })
 
-map("n", "<Leader>sc", '<cmd>lua require("lspsaga.codeaction").code_action()<CR>', { silent = true })
-map("n", "<Leader>sh", ":Lspsaga hover_doc<CR>", { silent = true })
-map("n", "<Leader>sf", ":Lspsaga lsp_finder<CR>", { silent = true })
+map("n", "ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
+map("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
+map("n", "<Leader>sf", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
 map("i", "<Leader>ss", "<cmd>Lspsaga signature_help<CR>", { silent = true })
 map("n", "<Leader>sr", "<cmd>Lspsaga rename<CR>")
 map("n", "<Leader>sdj", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 map("n", "<Leader>sdk", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
-map("n", "<Leader>sld", '<cmd>lua require"lspsaga.diagnostic".show_line_diagnostics()<CR>')
 
 -- Autocompletion
 opt.completeopt = "menu,menuone,noselect"
@@ -494,23 +559,23 @@ map("n", "<Leader>format", ":lua vim.lsp.buf.format()<CR>", { silent = true })
 
 require("which-key").setup({})
 
-require("bufferline").setup({
-    options = {
-        show_buffer_close_icons = false,
-        show_close_icon = false,
-    },
-})
+-- require("bufferline").setup({
+--     options = {
+--         show_buffer_close_icons = false,
+--         show_close_icon = false,
+--     },
+-- })
 
 require("transparent").setup({
     enable = true,
-    extra_groups = {
-        "BufferLineTabClose",
-        "BufferlineBufferSelected",
-        "BufferLineFill",
-        "BufferLineBackground",
-        "BufferLineSeparator",
-        "BufferLineIndicatorSelected",
-    },
+    -- extra_groups = {
+    --     "BufferLineTabClose",
+    --     "BufferlineBufferSelected",
+    --     "BufferLineFill",
+    --     "BufferLineBackground",
+    --     "BufferLineSeparator",
+    --     "BufferLineIndicatorSelected",
+    -- },
 })
 
 -- Thesaurus
