@@ -10,6 +10,7 @@ abbr gc "git commit -m"
 abbr gp "git push"
 abbr ssh "ssh -Y"
 abbr oci "oci --auth security_token"
+abbr firefox "firefox-nightly"
 
 
 #source $HOME/work/.config/fish/abbr.fish
