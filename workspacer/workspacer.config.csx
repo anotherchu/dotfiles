@@ -1,7 +1,8 @@
 #r "C:\Program Files\workspacer\workspacer.Shared.dll"
 #r "C:\Program Files\workspacer\plugins\workspacer.Bar\workspacer.Bar.dll"
 #r "C:\Program Files\workspacer\plugins\workspacer.ActionMenu\workspacer.ActionMenu.dll"
-#r "C:\Program Files\workspacer\plugins\workspacer.FocusIndicator\workspacer.FocusIndicator.dll"
+// #r "C:\Program Files\workspacer\plugins\workspacer.FocusIndicator\workspacer.FocusIndicator.dll"
+#r "C:\Program Files\workspacer\plugins\workspacer.FocusBorder\workspacer.FocusBorder.dll"
 #r "C:\Program Files\workspacer\plugins\workspacer.Gap\workspacer.Gap.dll"
 
 using System;
@@ -10,7 +11,8 @@ using workspacer;
 using workspacer.Bar;
 using workspacer.Bar.Widgets;
 using workspacer.ActionMenu;
-using workspacer.FocusIndicator;
+// using workspacer.FocusIndicator;
+using workspacer.FocusBorder;
 using workspacer.Gap;
 
 public class WorkspacerConfig{
@@ -19,6 +21,7 @@ public class WorkspacerConfig{
     private readonly String _fontName;
     private readonly int _barHeight;
     private readonly Color _foreground;
+    private readonly Color _nordic;
     private readonly GapPlugin _gaps;
 
     public WorkspacerConfig(IConfigContext context){
@@ -27,7 +30,8 @@ public class WorkspacerConfig{
         _fontSize = 10;
         _fontName = "SF Pro Display";
         _barHeight = 20;
-        _foreground = new Color(0xFF,0xA5,0x00);
+        _foreground = new Color(0xA6,0xD1,0x89);
+        _nordic = new Color(0x69, 0x7D, 0x97);
         _gaps = InitGaps();
         InitBar();
         InitWorkspaces();
@@ -53,7 +57,7 @@ public class WorkspacerConfig{
                 new BarPluginConfig()
                 {
                     FontSize = _fontSize,
-                    FontName = _fontName,
+                    // FontName = _fontName,
                     BarHeight = _barHeight,
                     LeftWidgets = () => new IBarWidget[]
                     {
@@ -72,7 +76,12 @@ public class WorkspacerConfig{
                     },
                 }
         );
-        _context.AddFocusIndicator();
+        // _context.AddFocusIndicator();
+        _context.AddFocusBorder(new FocusBorderPluginConfig()
+        {
+            BorderColor = _nordic,
+            BorderSize = 8
+        });
         _context.AddActionMenu();
     }
 
