@@ -106,6 +106,14 @@ public class WorkspacerConfig{
                                     "% complete",
                                     "Friends list",
                                     "Picture-in-Picture",
+                                    "Sharing Indicator",
+                                    "League of Legends",
+                                    "Ace Combat",
+                                    "Modern Warfare",
+                                    "Overwatch",
+                                    "Forza Horizon 5",
+                                    "Path of Exile",
+                                    "Tibia",
                                     "Magnifier",
                                   };
         foreach (string programName in filterList){
@@ -114,6 +122,7 @@ public class WorkspacerConfig{
     }
 
     private void InitRoutes(){
+        _context.WindowRouter.RouteTitle("Teams","三");
         _context.WindowRouter.RouteTitle("Telegram","四");
         _context.WindowRouter.RouteTitle("Discord","四");
         _context.WindowRouter.RouteProcessName("Spotify","五");
