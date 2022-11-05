@@ -16,6 +16,7 @@ using workspacer.Gap;
 public class WorkspacerConfig{
     private readonly IConfigContext _context;
     private readonly int _fontSize;
+    private readonly String _fontName;
     private readonly int _barHeight;
     private readonly Color _foreground;
     private readonly GapPlugin _gaps;
@@ -24,6 +25,7 @@ public class WorkspacerConfig{
         _context = context;
         _context.Branch = Branch.Unstable;
         _fontSize = 10;
+        _fontName = "SF Pro Display";
         _barHeight = 20;
         _foreground = new Color(0xFF,0xA5,0x00);
         _gaps = InitGaps();
@@ -39,20 +41,32 @@ public class WorkspacerConfig{
         WsWidget.WorkspaceHasFocusColor = _foreground;
         WsWidget.WorkspaceIndicatingBackColor = _foreground;
 
+        TitleWidget titleWidget = new TitleWidget();
+        titleWidget.WindowHasFocusColor = Color.White;
+
+        FocusedMonitorWidget focusMonitorWidget = new FocusedMonitorWidget();
+
+        focusMonitorWidget.FocusedText = "F";
+        focusMonitorWidget.UnfocusedText = "U";
+
         _context.AddBar(
                 new BarPluginConfig()
                 {
                     FontSize = _fontSize,
+                    FontName = _fontName,
                     BarHeight = _barHeight,
                     LeftWidgets = () => new IBarWidget[]
                     {
                         WsWidget,
+                        focusMonitorWidget,
                         new TextWidget("> "),
-                        new TitleWidget()
+                        titleWidget
                     },
                     RightWidgets = () => new IBarWidget[]
                     {
-                        new BatteryWidget(),
+                        new CpuPerformanceWidget(),
+                        new MemoryPerformanceWidget(),
+                        new NetworkPerformanceWidget(),
                         new TimeWidget(200,"HH:mm:ss dd/MM/yy"),
                         new ActiveLayoutWidget()
                     },
