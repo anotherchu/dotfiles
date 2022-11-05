@@ -27,7 +27,7 @@ return new Action<IConfigContext>((IConfigContext context) =>
     var gap = barHeight - 8;
     var gapPlugin = context.AddGap(new GapPluginConfig(){
         InnerGap = gap,
-        OuterGap = 8,
+        OuterGap = gap / 2,
         Delta = gap / 2,
     });
 
@@ -48,9 +48,11 @@ return new Action<IConfigContext>((IConfigContext context) =>
                         FocusedText = "F",
                         UnfocusedText = "U",
                     },
-                    new TextWidget("> "),
+                    new TextWidget(">"),
                     new TitleWidget(){
-                        WindowHasFocusColor = Color.White
+                        WindowHasFocusColor = Color.White,
+                        TitlePreamble = " ",
+                        TitlePostamble = " ",
                     }
                 },
                 RightWidgets = () => new IBarWidget[]
