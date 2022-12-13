@@ -62,8 +62,6 @@ local PKGS = {
     { "catppuccin/nvim", as = "catppuccin" },
     "andweeb/presence.nvim",
     "robbles/logstash.vim",
-    "github/copilot.vim",
-    "hrsh7th/cmp-copilot",
     "folke/zen-mode.nvim",
 }
 local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
@@ -199,9 +197,6 @@ map("", "<Leader><CR>", ":noh<CR>", { silent = true }) -- Remove hightlights
 map("", "<Leader>cd", ":cd %:p:h<CR>:pwd<CR>") -- Change pwd to current buffer path
 map("v", "<C-C>", '"+y')
 map("", "<C-V>", '"+p')
-
--- Copilot keybind
-map("", "<Leader>co", ":Copilot<CR>", { silent = true })
 
 -- lualine.nvim
 require("lualine").setup({
@@ -412,7 +407,6 @@ cmp.setup({
         { name = "calc" },
         { name = "treesitter" },
         { name = "dictionary", keyword_length = 2 },
-        { name = "copilot" },
     }),
     window = {
         documentation = {
