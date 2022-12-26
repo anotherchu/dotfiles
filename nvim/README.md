@@ -2,7 +2,7 @@
 
 ## Requirements
 
-*  nvim>=0.7
+*  nvim>=0.8
 
 Install the following packages:
 
