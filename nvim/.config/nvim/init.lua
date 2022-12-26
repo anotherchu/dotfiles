@@ -63,6 +63,7 @@ local PKGS = {
     "andweeb/presence.nvim",
     "robbles/logstash.vim",
     "folke/zen-mode.nvim",
+    "junegunn/vim-easy-align",
 }
 local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -222,6 +223,10 @@ map("n", "<C-b>", ":Telescope buffers<CR>", { silent = true })
 map("n", "<Leader>o", "<cmd>Telescope buffers<CR>", { silent = true })
 map("n", "<Leader>r", "<cmd>Telescope live_grep<CR>", { silent = true })
 map("n", "<Leader>d", "<cmd>Telescope diagnostics<CR>", { silent = true })
+
+-- vim-easy-align
+map("x", "ga", "<Plug>(EasyAlign)")
+map("n", "ga", "<Plug>(EasyAlign)")
 
 require("telescope").setup({
     extensions = {
