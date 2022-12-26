@@ -10,7 +10,7 @@
 [commit]
 	gpgsign = true
 [alias]
-	yolo = !git commit -m \"$(curl -s whatthecommit.com/index.txt)\"
+	yolo = !git commit -m \"$(curl -s https://whatthecommit.com/index.txt)\"
 [gpg]
 	program = gpg
 [advice]
