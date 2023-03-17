@@ -12,10 +12,12 @@ abbr ssh "ssh -Y"
 abbr oci "oci --auth security_token"
 abbr firefox "firefox-nightly"
 
-
+bind \e\[1\;3D prevd
+bind \e\[1\;3C nextd
 #source $HOME/work/.config/fish/abbr.fish
 alias cat="bat"
 alias ls="exa"
+alias reflector="sudo reflector --latest 5 --sort rate --protocol https --country Brazil --country US --country POrtugal --country Japan --save /etc/pacman.d/mirrorlist"
 
 set fzf_preview_dir_cmd exa --all --color=always
 set fzf_fd_opts -uu -i -L --exclude=.git/
