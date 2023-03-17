@@ -102,6 +102,12 @@ require("catppuccin").setup({
 		lsp_saga = true,
 		which_key = true,
 	},
+	custom_highlights = function()
+		return {
+			Comment = { fg = "#d8c5e5" },
+			["@comment"] = { fg = "#d8c5e5" },
+		}
+	end,
 })
 command("colorscheme catppuccin")
 
@@ -173,7 +179,8 @@ map("", "<Leader>wmax", "<C-w>_")
 map("", "<Leader>wequal", "<C-w>=")
 map("", "<Leader>wmore", "10<C-w>+")
 map("", "<Leader>wless", "10<C-w>-")
-
+map("", "<A-Down>", "<C-w>j")
+map("", "<A-Up>", "<C-w>k")
 -- Move lines up or down
 map("n", "<C-j>", ":m .+1<CR>==", { silent = true })
 map("n", "<C-k>", ":m .-2<CR>==", { silent = true })
@@ -280,7 +287,6 @@ require("nvim-treesitter.configs").setup({
 		"yaml",
 	},
 })
-
 -- LSP
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 require("lspfuzzy").setup({})
@@ -297,13 +303,16 @@ lsp_util.default_config = vim.tbl_extend("force", lsp_util.default_config, {
 
 local lspconfig = require("lspconfig")
 
-lspconfig.sumneko_lua.setup({
+lspconfig.lua_ls.setup({
 	settings = {
 		Lua = {
 			diagnostics = { globals = { "vim", "awesome" }, disable = { "lowercase-global" } },
 			runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
 			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
 			telemetry = {
+				enable = false,
+			},
+			format = {
 				enable = false,
 			},
 		},
