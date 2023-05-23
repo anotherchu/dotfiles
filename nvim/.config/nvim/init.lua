@@ -64,6 +64,8 @@ local PKGS = {
 	"robbles/logstash.vim",
 	"folke/zen-mode.nvim",
 	"junegunn/vim-easy-align",
+	"lervag/vimtex",
+	"stevearc/oil.nvim",
 }
 local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
 if fn.empty(fn.glob(install_path)) > 0 then
@@ -89,19 +91,8 @@ opt.mouse = "a"
 
 -- colorscheme settings
 require("catppuccin").setup({
-	term_colors = true,
+	flavor = "macchiato",
 	transparent_background = true,
-	integrations = {
-		lsp_trouble = false,
-		gitgutter = false,
-		notify = false,
-		nvimtree = {
-			enabled = false,
-		},
-		telekasten = false,
-		lsp_saga = true,
-		which_key = true,
-	},
 	custom_highlights = function()
 		return {
 			Comment = { fg = "#d8c5e5" },
@@ -114,6 +105,7 @@ command("colorscheme catppuccin")
 -- Cursor
 command("set guicursor=")
 opt.cursorline = true
+opt.cursorlineopt = "number"
 
 -- Line numbers
 opt.number = true
@@ -343,6 +335,7 @@ lspconfig.pylsp.setup({
 
 lspconfig.tsserver.setup({})
 lspconfig.rust_analyzer.setup({})
+lspconfig.gopls.setup({})
 
 map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { silent = true })
 map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
@@ -505,6 +498,9 @@ null_ls.setup({
 	end,
 })
 
+-- vimtex
+command("let g:vimtex_view_general_options= '--unique file:@pdf\\#src:@line@tex'")
+
 map("n", "<Leader>format", ":lua vim.lsp.buf.format()<CR>", { silent = true })
 
 require("which-key").setup({})
@@ -517,14 +513,13 @@ require("which-key").setup({})
 -- })
 
 require("transparent").setup({
-	enable = true,
 	-- extra_groups = {
-	--     "BufferLineTabClose",
-	--     "BufferlineBufferSelected",
-	--     "BufferLineFill",
-	--     "BufferLineBackground",
-	--     "BufferLineSeparator",
-	--     "BufferLineIndicatorSelected",
+	-- 	"BufferLineTabClose",
+	-- 	"BufferlineBufferSelected",
+	-- 	"BufferLineFill",
+	-- 	"BufferLineBackground",
+	-- 	"BufferLineSeparator",
+	-- 	"BufferLineIndicatorSelected",
 	-- },
 })
 
@@ -557,6 +552,26 @@ require("zen-mode").setup({
 })
 
 map("", "<leader>z", ":ZenMode<CR>", { silent = true })
+
+require("oil").setup({
+	columns = {
+		"permissions",
+		"size",
+		"mtime",
+	},
+	keymaps = {
+		["q"] = "actions.close",
+	},
+	view_options = {
+		show_hidden = true,
+	},
+	float = {
+		win_options = {
+			winblend = 0,
+		},
+	},
+})
+map("n", "-", require("oil").open_float, { desc = "Open parent directory" })
 
 -- Fast edit and reload of this config file
 map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<CR>", { silent = true })
