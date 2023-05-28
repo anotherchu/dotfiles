@@ -14,6 +14,14 @@ local function TSUpdate()
 	end
 end
 
+local function MasonUpdate()
+	local mason_path = fn.stdpath("data") .. "/site/pack/paqs/start/mason.nvim"
+	if not (fn.empty(fn.glob(mason_path)) > 0) then
+		command("packadd mason.nvim")
+		command("silent! MasonUpdate")
+	end
+end
+
 local function map(mode, lhs, rhs, opts)
 	local options = { noremap = true }
 	if opts then
@@ -43,7 +51,7 @@ local PKGS = {
 	"lambdalisue/suda.vim",
 	"akinsho/toggleterm.nvim",
 	{ "rrethy/vim-hexokinase", run = "make hexokinase" },
-	"williamboman/mason.nvim",
+	{ "williamboman/mason.nvim", run = MasonUpdate() },
 	"williamboman/mason-lspconfig.nvim",
 	"jose-elias-alvarez/null-ls.nvim",
 	"neovim/nvim-lspconfig",
@@ -252,33 +260,8 @@ require("nvim-treesitter.configs").setup({
 		enable = false,
 		disable = {},
 	},
-	ensure_installed = {
-		"c",
-		"java",
-		"bash",
-		"c_sharp",
-		"cmake",
-		"comment",
-		"cpp",
-		"css",
-		"dockerfile",
-		"elixir",
-		"fish",
-		"go",
-		"html",
-		"javascript",
-		"jsonc",
-		"latex",
-		"bibtex",
-		"lua",
-		"make",
-		"markdown",
-		"markdown_inline",
-		"python",
-		"typescript",
-		"vim",
-		"yaml",
-	},
+	ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
+	auto_install = true,
 })
 -- LSP
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
