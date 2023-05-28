@@ -273,6 +273,7 @@ require("nvim-treesitter.configs").setup({
 		"lua",
 		"make",
 		"markdown",
+		"markdown_inline",
 		"python",
 		"typescript",
 		"vim",
@@ -343,23 +344,35 @@ map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
 require("lspsaga").setup({
 	-- Error, Warn, Info, Hint
 	diagnostic_header = { "E", "--", "H", "I" },
-	finder_action_keys = {
-		quit = "<Esc>",
+	ui = {
+		border = "rounded",
 	},
-	code_action_keys = {
-		quit = "<Esc>",
+	finder = {
+		keys = {
+			quit = { "q", "<ESC>" },
+		},
 	},
-	code_action_lightbulb = {
+	rename = {
+		quit = "<ESC>",
+	},
+	lightbulb = {
 		virtual_text = false,
 	},
-	rename_action_quit = "<Esc>",
+	hover = {
+		open_browser = "!microsoft-edge-stable",
+	},
+	definition = {
+		quit = "<ESC>",
+	},
 })
 
 map("n", "ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
 map("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
 map("n", "<Leader>sf", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
-map("i", "<Leader>ss", "<cmd>Lspsaga signature_help<CR>", { silent = true })
+map("n", "<Leader>sp", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
 map("n", "<Leader>sr", "<cmd>Lspsaga rename<CR>")
+map("n", "<Leader>so", "<cmd>Lspsaga outline<CR>")
+map("n", "<Leader>sdd", "<cmd>Lspsaga show_workspace_diagnostics<CR>")
 map("n", "<Leader>sdj", "<cmd>Lspsaga diagnostic_jump_next<CR>")
 map("n", "<Leader>sdk", "<cmd>Lspsaga diagnostic_jump_prev<CR>")
 
