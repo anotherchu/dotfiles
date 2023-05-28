@@ -219,7 +219,6 @@ require("zen-mode").setup({
 -- telescope.nvim
 map("n", "<C-f>", ":Telescope find_files find_command=rg,--ignore,--hidden,--files<CR>", { silent = true })
 map("n", "<C-b>", ":Telescope buffers<CR>", { silent = true })
-map("n", "<Leader>o", "<cmd>Telescope buffers<CR>", { silent = true })
 map("n", "<Leader>r", "<cmd>Telescope live_grep<CR>", { silent = true })
 map("n", "<Leader>d", "<cmd>Telescope diagnostics<CR>", { silent = true })
 
