@@ -43,7 +43,8 @@ local PKGS = {
 	"lambdalisue/suda.vim",
 	"akinsho/toggleterm.nvim",
 	{ "rrethy/vim-hexokinase", run = "make hexokinase" },
-	"williamboman/nvim-lsp-installer",
+	"williamboman/mason.nvim",
+	"williamboman/mason-lspconfig.nvim",
 	"jose-elias-alvarez/null-ls.nvim",
 	"neovim/nvim-lspconfig",
 	"ojroques/nvim-lspfuzzy",
@@ -283,7 +284,8 @@ require("nvim-treesitter.configs").setup({
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 require("lspfuzzy").setup({})
 
-require("nvim-lsp-installer").setup({
+require("mason").setup({})
+require("mason-lspconfig").setup({
 	automatic_installation = true,
 })
 
