@@ -139,7 +139,8 @@ opt.expandtab = true
 opt.smarttab = true
 opt.softtabstop = 4
 opt.shiftwidth = 4
-opt.tabstop = 4 -- Supertab g.SuperTabDefaultCompletionType = "<C-n>"
+opt.tabstop = 4
+
 -- Suda.vim
 g.suda_smart_edit = 1
 
@@ -508,17 +509,6 @@ require("which-key").setup({})
 --         show_close_icon = false,
 --     },
 -- })
-
-require("transparent").setup({
-	-- extra_groups = {
-	-- 	"BufferLineTabClose",
-	-- 	"BufferlineBufferSelected",
-	-- 	"BufferLineFill",
-	-- 	"BufferLineBackground",
-	-- 	"BufferLineSeparator",
-	-- 	"BufferLineIndicatorSelected",
-	-- },
-})
 
 require("indent_blankline").setup({
 	show_current_context = true,
