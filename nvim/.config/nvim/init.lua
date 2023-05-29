@@ -6,18 +6,9 @@ local home_dir = os.getenv("HOME")
 
 g.mapleader = ","
 
-local function TSUpdate()
-	local treesitter_path = fn.stdpath("data") .. "/site/pack/paqs/start/nvim-treesitter"
-	if not (fn.empty(fn.glob(treesitter_path)) > 0) then
-		command("packadd nvim-treesitter")
-		command("silent! TSUpdate")
-	end
-end
-
 local function MasonUpdate()
-	local mason_path = fn.stdpath("data") .. "/site/pack/paqs/start/mason.nvim"
+	local mason_path = fn.stdpath("data") .. "/lazy/mason.nvim"
 	if not (fn.empty(fn.glob(mason_path)) > 0) then
-		command("packadd mason.nvim")
 		command("silent! MasonUpdate")
 	end
 end
@@ -30,28 +21,26 @@ local function map(mode, lhs, rhs, opts)
 	vim.keymap.set(mode, lhs, rhs, options)
 end
 
--- Install paq-nvim
+-- Install plugins
 local PKGS = {
-	"savq/paq-nvim",
-	"nvim-lua/popup.nvim",
 	"nvim-lua/plenary.nvim",
 	"nvim-telescope/telescope.nvim",
-	{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	"tpope/vim-surround",
 	"hoob3rt/lualine.nvim",
 	"windwp/nvim-autopairs",
 	"numToStr/Comment.nvim",
 	"junegunn/fzf",
 	"junegunn/fzf.vim",
-	{ "nvim-treesitter/nvim-treesitter", run = TSUpdate() },
+	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 	{ "mg979/vim-visual-multi", branch = "master" },
 	"khaveesh/vim-fish-syntax",
 	"folke/which-key.nvim",
 	"xiyaowong/nvim-transparent",
 	"lambdalisue/suda.vim",
 	"akinsho/toggleterm.nvim",
-	{ "rrethy/vim-hexokinase", run = "make hexokinase" },
-	{ "williamboman/mason.nvim", run = MasonUpdate() },
+	{ "rrethy/vim-hexokinase", build = "make hexokinase" },
+	{ "williamboman/mason.nvim", build = MasonUpdate() },
 	"williamboman/mason-lspconfig.nvim",
 	"jose-elias-alvarez/null-ls.nvim",
 	"neovim/nvim-lspconfig",
@@ -68,7 +57,7 @@ local PKGS = {
 	{ "glepnir/lspsaga.nvim", branch = "main" },
 	"kyazdani42/nvim-web-devicons",
 	"lukas-reineke/indent-blankline.nvim",
-	{ "catppuccin/nvim", as = "catppuccin" },
+	{ "catppuccin/nvim", name = "catppuccin" },
 	"andweeb/presence.nvim",
 	"robbles/logstash.vim",
 	"folke/zen-mode.nvim",
@@ -76,24 +65,22 @@ local PKGS = {
 	"lervag/vimtex",
 	"stevearc/oil.nvim",
 }
-local install_path = fn.stdpath("data") .. "/site/pack/paqs/start/paq-nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-	command("echo 'Installing plugin manager (paq)... Please reopen neovim after installing all plugins.'")
-	command("silent! !git clone https://github.com/savq/paq-nvim.git " .. install_path)
-	command("packadd paq-nvim")
-	vim.api.nvim_create_autocmd("User", {
-		pattern = "PaqDoneInstall",
-		command = "exit",
-		group = vim.api.nvim_create_augroup("plugin_install_exit", { clear = true }),
-	})
-	require("paq")(PKGS)
-	require("paq").install()
-	return
-end
 
-command("packadd paq-nvim")
-local paq = require("paq")
-paq(PKGS)
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
+vim.opt.rtp:prepend(lazypath)
+
+local opts = {}
+require("lazy").setup(PKGS, opts)
 
 -- Enable mouse
 opt.mouse = "a"
@@ -286,7 +273,7 @@ lspconfig.lua_ls.setup({
 		Lua = {
 			diagnostics = { globals = { "vim", "awesome" }, disable = { "lowercase-global" } },
 			runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
-			workspace = { library = vim.api.nvim_get_runtime_file("", true) },
+			workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false },
 			telemetry = {
 				enable = false,
 			},
@@ -563,11 +550,6 @@ map("n", "-", require("oil").open_float, { desc = "Open parent directory" })
 -- Fast edit and reload of this config file
 map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<CR>", { silent = true })
 
-vim.api.nvim_create_autocmd("BufWritePost", {
-	pattern = "init.lua",
-	command = "source %",
-	group = vim.api.nvim_create_augroup("reload_config_on_save", { clear = true }),
-})
 vim.api.nvim_create_autocmd("BufWritePre", {
 	pattern = "*",
 	command = ":%s/\\s\\+$//e",
