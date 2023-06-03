@@ -68,7 +68,7 @@ local PKGS = {
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
+	fn.system({
 		"git",
 		"clone",
 		"--filter=blob:none",
@@ -77,7 +77,7 @@ if not vim.loop.fs_stat(lazypath) then
 		lazypath,
 	})
 end
-vim.opt.rtp:prepend(lazypath)
+opt.rtp:prepend(lazypath)
 
 local opts = {}
 require("lazy").setup(PKGS, opts)
@@ -132,10 +132,23 @@ opt.tabstop = 4
 g.suda_smart_edit = 1
 
 -- vim-visual-multi
-command("let g:VM_show_warnings = 0")
-command("let g:VM_maps = {}")
-command('let g:VM_maps["Find Under"] = "<C-s>"')
-command('let g:VM_maps["Find Subword Under"] = "<C-s>"')
+g.VM_show_warnings = 0
+g.VM_maps = vim.empty_dict()
+g.VM_maps = { ["Find Under"] = "<C-s>", ["Find Subword Under"] = "<C-s>" }
+
+vim.api.nvim_create_autocmd({ "User" }, {
+	pattern = "visual_multi_start",
+	callback = function()
+		require("lualine").hide()
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "User" }, {
+	pattern = "visual_multi_exit",
+	callback = function()
+		require("lualine").hide({ unhide = true })
+	end,
+})
 
 -- Hexakinase
 g.Hexokinase_optInPatterns = "full_hex,rgb,rgba, hsl, hsla"
@@ -216,6 +229,7 @@ require("zen-mode").setup({
 -- telescope.nvim
 map("n", "<C-f>", ":Telescope find_files find_command=rg,--ignore,--hidden,--files<CR>", { silent = true })
 map("n", "<C-b>", ":Telescope buffers<CR>", { silent = true })
+map("n", "<Leader>tr", "<cmd>Telescope resume<CR>", { silent = true })
 map("n", "<Leader>r", "<cmd>Telescope live_grep<CR>", { silent = true })
 map("n", "<Leader>d", "<cmd>Telescope diagnostics<CR>", { silent = true })
 
@@ -248,7 +262,7 @@ require("nvim-treesitter.configs").setup({
 		enable = false,
 		disable = {},
 	},
-	ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
+	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
 	auto_install = true,
 })
 -- LSP
@@ -484,7 +498,7 @@ null_ls.setup({
 })
 
 -- vimtex
-command("let g:vimtex_view_general_options= '--unique file:@pdf\\#src:@line@tex'")
+g.vimtex_view_general_options = "--unique file:@pdf\\#src:@line@tex"
 
 map("n", "<Leader>format", ":lua vim.lsp.buf.format()<CR>", { silent = true })
 
@@ -556,6 +570,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	group = vim.api.nvim_create_augroup("remove_trail_whitespaces", { clear = true }),
 })
 
+map("", "<f9>", ":make<CR>:copen<CR>")
+
 -- Return to last edit position
 
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -570,5 +586,11 @@ local filetype_augroup = vim.api.nvim_create_augroup("ftaugroup", { clear = true
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "java, html, typescript, typescriptreact",
 	command = "setlocal sw=2 ts=2 sts=2",
+	group = filetype_augroup,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "python",
+	command = "compiler pyunit | setlocal makeprg=python\\ %",
 	group = filetype_augroup,
 })
