@@ -13,6 +13,12 @@ local function MasonUpdate()
 	end
 end
 
+local function VisualMultiInit()
+	g.VM_show_warnings = 0
+	g.VM_maps = vim.empty_dict()
+	g.VM_maps = { ["Find Under"] = "<C-s>", ["Find Subword Under"] = "<C-s>" }
+end
+
 local function map(mode, lhs, rhs, opts)
 	local options = { noremap = true }
 	if opts then
@@ -33,7 +39,7 @@ local PKGS = {
 	"junegunn/fzf",
 	"junegunn/fzf.vim",
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-	{ "mg979/vim-visual-multi", branch = "master" },
+	{ "mg979/vim-visual-multi", branch = "master", init = VisualMultiInit() },
 	"khaveesh/vim-fish-syntax",
 	"folke/which-key.nvim",
 	"xiyaowong/nvim-transparent",
@@ -130,11 +136,6 @@ opt.tabstop = 4
 
 -- Suda.vim
 g.suda_smart_edit = 1
-
--- vim-visual-multi
-g.VM_show_warnings = 0
-g.VM_maps = vim.empty_dict()
-g.VM_maps = { ["Find Under"] = "<C-s>", ["Find Subword Under"] = "<C-s>" }
 
 vim.api.nvim_create_autocmd({ "User" }, {
 	pattern = "visual_multi_start",
