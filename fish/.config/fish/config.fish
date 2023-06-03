@@ -8,9 +8,9 @@ abbr dcd "docker compose down"
 abbr ga "git add"
 abbr gc "git commit -m"
 abbr gp "git push"
-abbr ssh "ssh -Y"
 abbr oci "oci --auth security_token"
 abbr firefox "firefox-nightly"
+abbr edge "microsoft-edge-stable"
 
 bind \e\[1\;3D prevd
 bind \e\[1\;3C nextd
