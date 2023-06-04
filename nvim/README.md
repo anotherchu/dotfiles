@@ -2,7 +2,7 @@
 
 ## Requirements
 
-*  nvim>=0.8
+*  nvim>=0.9
 
 Install the following packages:
 
@@ -12,9 +12,3 @@ Install the following packages:
 - g++
 - golang
 - make
-
-## Installation
-
-Copy all files into `~/.config/nvim/`
-
-Open `nvim` and the plugin installation will begin. If there are no errors, nvim will close itself. Simply, reopen and use away.
