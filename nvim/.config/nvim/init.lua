@@ -515,8 +515,12 @@ require("which-key").setup({})
 require("indent_blankline").setup({
 	show_current_context = true,
 })
-g.presence_neovim_image_text = "can your vim do this?"
-g.presence_enable_line_number = 1
+
+require("presence").setup({
+	neovim_image_text = "can your vim do this?",
+	main_image = "file",
+	enable_line_number = true,
+})
 
 require("zen-mode").setup({
 	window = {
