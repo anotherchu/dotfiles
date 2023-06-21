@@ -111,7 +111,7 @@ opt.cursorlineopt = "number"
 
 -- Line numbers
 opt.number = true
-opt.relativenumber = true
+opt.relativenumber = false
 
 -- Keep changes on file when changing buffers and ask for confirmation when
 -- closing modified files
@@ -233,6 +233,7 @@ map("n", "<C-b>", ":Telescope buffers<CR>", { silent = true })
 map("n", "<Leader>tr", "<cmd>Telescope resume<CR>", { silent = true })
 map("n", "<Leader>r", "<cmd>Telescope live_grep<CR>", { silent = true })
 map("n", "<Leader>d", "<cmd>Telescope diagnostics<CR>", { silent = true })
+map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { silent = true })
 
 -- vim-easy-align
 map("x", "ga", "<Plug>(EasyAlign)")
@@ -324,9 +325,6 @@ lspconfig.pylsp.setup({
 lspconfig.tsserver.setup({})
 lspconfig.rust_analyzer.setup({})
 lspconfig.gopls.setup({})
-
-map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { silent = true })
-map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { silent = true })
 
 require("lspsaga").setup({
 	-- Error, Warn, Info, Hint
