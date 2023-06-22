@@ -184,6 +184,10 @@ map("", "<Leader>wmore", "10<C-w>+")
 map("", "<Leader>wless", "10<C-w>-")
 map("", "<A-Down>", "<C-w>j")
 map("", "<A-Up>", "<C-w>k")
+map("", "<C-h>", "<C-w>h")
+map("", "<C-l>", "<C-w>l")
+map("", "<C-c>", "<C-w>c")
+
 -- Move lines up or down
 map("n", "<C-j>", ":m .+1<CR>==", { silent = true })
 map("n", "<C-k>", ":m .-2<CR>==", { silent = true })
@@ -317,6 +321,16 @@ lspconfig.pylsp.setup({
 					enabled = true,
 					ignore = { "E501", "W503", "F841" },
 				},
+			},
+		},
+	},
+})
+
+lspconfig.pyright.setup({
+	settings = {
+		python = {
+			analysis = {
+				typeCheckingMode = "off",
 			},
 		},
 	},
