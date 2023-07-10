@@ -70,6 +70,7 @@ local PKGS = {
 	"junegunn/vim-easy-align",
 	"lervag/vimtex",
 	"stevearc/oil.nvim",
+	"NeogitOrg/neogit",
 }
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -183,10 +184,10 @@ map("", "<Leader>wequal", "<C-w>=")
 map("", "<Leader>wmore", "10<C-w>+")
 map("", "<Leader>wless", "10<C-w>-")
 map("", "<A-Down>", "<C-w>j")
-map("", "<A-Up>", "<C-w>k")
-map("", "<C-h>", "<C-w>h")
-map("", "<C-l>", "<C-w>l")
-map("", "<C-c>", "<C-w>c")
+map("n", "<A-Up>", "<C-w>k")
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-l>", "<C-w>l")
+map("n", "<C-c>", "<C-w>c")
 
 -- Move lines up or down
 map("n", "<C-j>", ":m .+1<CR>==", { silent = true })
@@ -577,6 +578,9 @@ require("oil").setup({
 	},
 })
 map("n", "-", require("oil").open_float, { desc = "Open parent directory" })
+
+require("neogit").setup({})
+map("", "<Leader>g", ":Neogit<CR>")
 
 -- Fast edit and reload of this config file
 map("", "<leader>e", ":e! " .. home_dir .. "/.dotfiles/nvim/.config/nvim/init.lua<CR>", { silent = true })
