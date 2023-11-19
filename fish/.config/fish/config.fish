@@ -11,6 +11,7 @@ abbr gp "git push"
 abbr oci "oci --auth security_token"
 abbr firefox "firefox-nightly"
 abbr edge "microsoft-edge-stable"
+abbr icat "kitty +kitten icat"
 
 bind \e\[1\;3D prevd
 bind \e\[1\;3C nextd

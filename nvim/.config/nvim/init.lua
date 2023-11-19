@@ -525,9 +525,7 @@ require("which-key").setup({})
 --     },
 -- })
 
-require("indent_blankline").setup({
-	show_current_context = true,
-})
+require("ibl").setup({})
 
 require("presence").setup({
 	neovim_image_text = "can your vim do this?",
