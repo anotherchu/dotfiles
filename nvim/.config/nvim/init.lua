@@ -62,7 +62,7 @@ local PKGS = {
 	"uga-rosa/cmp-dictionary",
 	{ "glepnir/lspsaga.nvim", branch = "main" },
 	"kyazdani42/nvim-web-devicons",
-	"lukas-reineke/indent-blankline.nvim",
+	{ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} },
 	{ "catppuccin/nvim", name = "catppuccin" },
 	"andweeb/presence.nvim",
 	"robbles/logstash.vim",
@@ -525,7 +525,12 @@ require("which-key").setup({})
 --     },
 -- })
 
-require("ibl").setup({})
+require("ibl").setup({
+	scope = {
+		show_start = false,
+		show_end = false,
+	},
+})
 
 require("presence").setup({
 	neovim_image_text = "can your vim do this?",
