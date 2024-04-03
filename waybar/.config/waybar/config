@@ -1,0 +1,109 @@
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top", // Waybar position (top|bottom|left|right)
+    "height": 10,
+    // Choose the order of the modules
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-center": [],
+    "modules-right": [ "cpu", "memory", "disk", "pulseaudio", "backlight", "battery", "hyprland/language",  "tray","clock", "custom/power", "custom/updates"],
+    "hyprland/workspaces": {
+         "active-only": false,
+         "persistent-workspaces": {
+             "*": 6,
+         },
+         "sort-by": "name",
+         "format": " {icon} ",
+         "format-icons": {
+            "1":"一",
+            "2":"二",
+            "3":"三",
+            "4":"四",
+            "5":"五",
+            "6":"六",
+            "default": "零",
+         },
+     },
+    "disk": {
+        "path": "/",
+        "format": "  {specific_used:0.2f}G/{specific_total:0.2f}G",
+        "unit": "GiB"
+    },
+    "memory": {
+        "interval": 3,
+        "format":"  {used:0.2f}G/{total:0.2f}G",
+
+    },
+    "cpu": {
+        "interval": 3,
+        "format":"  {:0.1f}%"
+    },
+    "tray": {
+        "icon-size": 21,
+        "spacing": 10,
+        "on-click": "activate"
+    },
+    "custom/music": {
+        "format": "  {}",
+        "escape": true,
+        "interval": 5,
+        "tooltip": false,
+        "exec": "playerctl metadata --format='{{ title }}'",
+        "on-click": "playerctl play-pause",
+        "max-length": 50
+    },
+    "clock": {
+        "timezone": "America/Sao_Paulo",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": " {:%d/%m/%Y}",
+        "format": " {:%H:%M}"
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", "", "", "", "", "", "", ""],
+        "reverse-scrolling": true
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{icon} {capacity}%",
+        "format-icons": ["", "",  "", "", "", "", "", "", "", "", "", ""]
+    },
+    "pulseaudio": {
+        "scroll-step": 1, // %, can be a float
+        "format": "{icon} {volume}%",
+        "format-muted": "",
+        "format-icons": {
+            "default": ["", "", " "]
+        },
+        "on-click": "pavucontrol"
+    },
+    "hyprland/language":{
+        "keyboard-name": "at-translated-set-2-keyboard",
+        "format-pt": "br",
+        "format-en": "en",
+        "on-click": "hyprctl switchxkblayout at-translated-set-2-keyboard next"
+    },
+    "custom/lock": {
+        "tooltip": false,
+        "on-click": "sh -c '(sleep 0.5s; swaylock)' & disown",
+        "format": "",
+    },
+    "custom/power": {
+        "tooltip": false,
+        "on-click": "wlogout &",
+        "format": "襤"
+    },
+    "custom/updates": {
+        "format": "{}",
+        "escape": true,
+        "interval": 1800,
+        "tooltip": false,
+        "exec": "~/baraction.sh updater",
+    },
+}
