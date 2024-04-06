@@ -55,7 +55,9 @@
         "timezone": "America/Sao_Paulo",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": " {:%d/%m/%Y}",
-        "format": " {:%H:%M}"
+        "format": " {:%H:%M:%S}",
+        "on-click-right": "gnome-calendar",
+        "interval": 1
     },
     "backlight": {
         "device": "intel_backlight",
@@ -96,7 +98,7 @@
     },
     "custom/power": {
         "tooltip": false,
-        "on-click": "wlogout &",
+        "on-click": "wlogout -b 4 &",
         "format": "襤"
     },
     "custom/updates": {

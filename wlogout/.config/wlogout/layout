@@ -5,14 +5,8 @@
     "keybind" : "l"
 }
 {
-    "label" : "hibernate",
-    "action" : "systemctl hibernate",
-    "text" : "Hibernate",
-    "keybind" : "h"
-}
-{
     "label" : "logout",
-    "action" : "loginctl terminate-user $USER",
+    "action" : "grim -s 1.5 -l 0 ~/.cache/screenlock.png && convert ~/.cache/screenlock.png -scale 20% -blur 0x5 -resize 200% .cache/screenlock.png && hyprlock",
     "text" : "Logout",
     "keybind" : "e"
 }
@@ -21,12 +15,6 @@
     "action" : "systemctl poweroff",
     "text" : "Shutdown",
     "keybind" : "s"
-}
-{
-    "label" : "suspend",
-    "action" : "systemctl suspend",
-    "text" : "Suspend",
-    "keybind" : "u"
 }
 {
     "label" : "reboot",

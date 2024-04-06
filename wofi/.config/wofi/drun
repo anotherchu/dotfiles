@@ -1,4 +1,4 @@
-show=drun
+show=drun,run
 width=750
 height=400
 always_parse_args=true
