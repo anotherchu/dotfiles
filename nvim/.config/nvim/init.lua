@@ -4,7 +4,7 @@ local g = vim.g
 local opt = vim.opt
 local home_dir = os.getenv("HOME")
 
-g.mapleader = ","
+g.mapleader = " "
 
 local function MasonUpdate()
 	local mason_path = fn.stdpath("data") .. "/lazy/mason.nvim"
@@ -141,6 +141,7 @@ g.suda_smart_edit = 1
 vim.api.nvim_create_autocmd({ "User" }, {
 	pattern = "visual_multi_start",
 	callback = function()
+		---@diagnostic disable-next-line: undefined-field
 		require("lualine").hide()
 	end,
 })
@@ -148,6 +149,7 @@ vim.api.nvim_create_autocmd({ "User" }, {
 vim.api.nvim_create_autocmd({ "User" }, {
 	pattern = "visual_multi_exit",
 	callback = function()
+		---@diagnostic disable-next-line: undefined-field
 		require("lualine").hide({ unhide = true })
 	end,
 })
@@ -215,6 +217,7 @@ map("v", "<C-C>", '"+y')
 map("", "<C-V>", '"+p')
 
 -- lualine.nvim
+---@diagnostic disable-next-line: undefined-field
 require("lualine").setup({
 	options = {
 		theme = "catppuccin",
@@ -231,7 +234,6 @@ require("zen-mode").setup({
 		},
 	},
 })
-
 -- telescope.nvim
 map("n", "<C-f>", ":Telescope find_files find_command=rg,--ignore,--hidden,--files<CR>", { silent = true })
 map("n", "<C-b>", ":Telescope buffers<CR>", { silent = true })
@@ -260,18 +262,26 @@ require("telescope").setup({
 require("telescope").load_extension("fzf")
 
 -- Treesitter
-require("nvim-treesitter.configs").setup({
-	hightlight = {
-		enable = true,
-		disable = {},
-	},
-	indent = {
-		enable = false,
-		disable = {},
-	},
-	ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
-	auto_install = true,
-})
+
+require("nvim-treesitter.configs").setup(
+	---@diagnostic disable: missing-fields
+	{
+		hightlight = {
+			enable = true,
+			disable = {},
+		},
+		indent = {
+			enable = false,
+			disable = {},
+		},
+		ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
+		ignore_install = {},
+		sync_install = false,
+
+		auto_install = true,
+	}
+	---@diagnostic enable: missing-fields
+)
 -- LSP
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 require("lspfuzzy").setup({})
@@ -368,7 +378,7 @@ require("lspsaga").setup({
 
 map("n", "ca", "<cmd>Lspsaga code_action<CR>", { silent = true })
 map("n", "K", "<cmd>Lspsaga hover_doc<CR>", { silent = true })
-map("n", "<Leader>sf", "<cmd>Lspsaga lsp_finder<CR>", { silent = true })
+map("n", "<Leader>sf", "<cmd>Lspsaga finder<CR>", { silent = true })
 map("n", "<Leader>sp", "<cmd>Lspsaga peek_definition<CR>", { silent = true })
 map("n", "<Leader>sr", "<cmd>Lspsaga rename<CR>")
 map("n", "<Leader>so", "<cmd>Lspsaga outline<CR>")
