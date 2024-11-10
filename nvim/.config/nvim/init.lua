@@ -347,7 +347,7 @@ lspconfig.pyright.setup({
 	},
 })
 
-lspconfig.tsserver.setup({})
+lspconfig.ts_ls.setup({})
 lspconfig.rust_analyzer.setup({})
 lspconfig.gopls.setup({})
 
@@ -475,7 +475,7 @@ require("nvim-autopairs").setup({})
 require("Comment").setup({})
 
 -- Floaterm.nvim
-local shell = vim.loop.os_uname().sysname == "Windows_NT" and "pwsh" or "fish"
+local shell = vim.loop.os_uname().sysname == "Windows_NT" and "pwsh" or "zsh"
 require("toggleterm").setup({
 	shell = shell,
 })

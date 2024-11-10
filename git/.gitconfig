@@ -1,8 +1,8 @@
 # This is Git's per-user configuration file.
 [user]
 	name = Thiago Chu
-	email = thiagomei@id.uff.br
-	signingkey = D337E0C06D90C432
+	email = thiago@zhu.dev
+	signingkey = 73F9CF0A4B53B592
 [core]
 	editor = nvim
 [init]
