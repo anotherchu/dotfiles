@@ -77,7 +77,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git web-search vi-mode tmux)
+plugins=(git web-search vi-mode tmux sudo copybuffer dirhistory macos jsontools aliases)
 
 export ZSH_TMUX_AUTOSTART=true
 
@@ -108,7 +108,7 @@ source $ZSH/oh-my-zsh.sh
 # - $ZSH_CUSTOM/macos.zsh
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
+# Example aliases macos
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
@@ -122,6 +122,10 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias vim=nvim
 alias n=nvim
+alias history="history | grep -i"
+alias src="source ~/.zshrc"
+alias open="open ."
+alias ls="ls -Srhal"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
