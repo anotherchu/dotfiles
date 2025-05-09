@@ -122,10 +122,10 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 alias vim=nvim
 alias n=nvim
-alias history="history | grep -i"
 alias src="source ~/.zshrc"
 alias open="open ."
 alias ls="ls -Srhal"
+alias python="python3"
 
 export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 

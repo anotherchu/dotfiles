@@ -283,7 +283,9 @@ require("nvim-treesitter.configs").setup(
 	---@diagnostic enable: missing-fields
 )
 -- LSP
-local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), require('cmp_nvim_lsp').default_capabilities())
 require("lspfuzzy").setup({})
 
 require("mason").setup({})
@@ -297,10 +299,10 @@ lsp_util.default_config = vim.tbl_extend("force", lsp_util.default_config, {
 	capabilities = capabilities,
 })
 
-local lspconfig = require("lspconfig")
+local lspconfig = vim.lsp.config
 
-lspconfig.lua_ls.setup({
-	settings = {
+lspconfig('lua_ls', {
+    settings = {
 		Lua = {
 			diagnostics = { globals = { "vim", "awesome" }, disable = { "lowercase-global" } },
 			runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
@@ -312,10 +314,26 @@ lspconfig.lua_ls.setup({
 				enable = false,
 			},
 		},
-	},
+  },
 })
 
-lspconfig.pylsp.setup({
+-- lspconfig.lua_ls.setup({
+-- 	settings = {
+-- 		Lua = {
+-- 			diagnostics = { globals = { "vim", "awesome" }, disable = { "lowercase-global" } },
+-- 			runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
+-- 			workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false },
+-- 			telemetry = {
+-- 				enable = false,
+-- 			},
+-- 			format = {
+-- 				enable = false,
+-- 			},
+-- 		},
+-- 	},
+-- })
+
+lspconfig('pylsp',{
 	settings = {
 		pylsp = {
 			plugins = {
@@ -337,19 +355,20 @@ lspconfig.pylsp.setup({
 	},
 })
 
-lspconfig.pyright.setup({
+lspconfig('pyright', {
 	settings = {
 		python = {
 			analysis = {
 				typeCheckingMode = "off",
 			},
+            venvPath = ".venv/"
 		},
 	},
 })
 
-lspconfig.ts_ls.setup({})
-lspconfig.rust_analyzer.setup({})
-lspconfig.gopls.setup({})
+lspconfig('ts_ls', {})
+lspconfig('rust_analyzer', {})
+lspconfig('gopls', {})
 
 require("lspsaga").setup({
 	-- Error, Warn, Info, Hint
@@ -481,45 +500,6 @@ require("toggleterm").setup({
 })
 map("n", "<Leader>ft", ":ToggleTerm<CR>")
 map("t", "<Esc>", "<C-\\><C-n>")
-
--- formatter
-local null_ls = require("null-ls")
-null_ls.setup({
-	sources = {
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.prettierd.with({
-			filetypes = {
-				"javascript",
-				"javascriptreact",
-				"typescript",
-				"typescriptreact",
-				"vue",
-				"css",
-				"scss",
-				"less",
-				"html",
-				"json",
-				"jsonc",
-				"yaml",
-				"graphql",
-				"handlebars",
-			},
-		}),
-		null_ls.builtins.formatting.google_java_format,
-		null_ls.builtins.formatting.black,
-	},
-	on_attach = function(client)
-		if client.server_capabilities.documentFormattingProvider then
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				pattern = "<buffer>",
-				callback = function()
-					vim.lsp.buf.format()
-				end,
-				group = vim.api.nvim_create_augroup("format_on_save", { clear = true }),
-			})
-		end
-	end,
-})
 
 -- vimtex
 g.vimtex_view_general_options = "--unique file:@pdf\\#src:@line@tex"
