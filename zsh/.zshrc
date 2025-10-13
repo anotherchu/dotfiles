@@ -13,8 +13,8 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 #
-#
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 source <(fzf --zsh)
 alias j="z"
+export GPG_TTY=$(tty)
