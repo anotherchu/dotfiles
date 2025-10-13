@@ -229,6 +229,7 @@ require("zen-mode").setup({
 		backdrop = 0.95,
 		options = {
 			signcolumn = "no",
+            number = true,
 			relativenumber = false,
 			list = false,
 		},

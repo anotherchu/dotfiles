@@ -1,0 +1,49 @@
+format = """
+\\[\
+$username\
+@\
+$hostname\
+$directory\
+$git_branch\
+\\]\
+$character\
+"""
+
+right_format = """
+$cmd_duration\
+$time\
+"""
+[cmd_duration]
+min_time=500
+show_milliseconds=true
+show_notifications=true
+
+[time]
+disabled=false
+
+[username]
+style_user = "green bold"
+style_root = "red bold"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+format = "[$hostname]($style) "
+style = "green bold"
+disabled = false
+
+
+[character]
+
+success_symbol = "[\\$](bold green)"
+error_symbol = "[\\$](bold red)"
+vimcmd_symbol = "[<](bold green)"
+
+[git_status]
+ahead = ">"
+behind = "<"
+diverged = "<>"
+renamed = "r"
+deleted = "x"
