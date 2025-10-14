@@ -17,4 +17,5 @@ eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 source <(fzf --zsh)
 alias j="z"
+alias ls="ls -lha --color=auto"
 export GPG_TTY=$(tty)
