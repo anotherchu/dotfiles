@@ -18,4 +18,10 @@ eval "$(starship init zsh)"
 source <(fzf --zsh)
 alias j="z"
 alias ls="ls -lha --color=auto"
+alias n="nvim"
 export GPG_TTY=$(tty)
+
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux attach -t 0 || tmux new
+fi
+
