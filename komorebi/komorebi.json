@@ -1,0 +1,82 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.38/schema.json",
+  "app_specific_configuration_path": "$Env:USERPROFILE/applications.json",
+  "window_hiding_behaviour": "Cloak",
+  "cross_monitor_move_behaviour": "Insert",
+  "default_workspace_padding": 6,
+  "default_container_padding": 6,
+  "border": true,
+  "border_width": 5,
+  "border_offset": -1,
+  "mouse_follows_focus": false,
+  "theme": {
+    "palette": "Catppuccin",
+    "name": "Mocha",
+    "unfocused_border": "Overlay2",
+    "single_border": "Blue",
+    "bar_accent": "Text",
+    "monocle_border": "Green"
+  },
+  "bar_configurations": [
+      "$Env:USERPROFILE/komorebi.bar.1.json",
+      "$Env:USERPROFILE/komorebi.bar.json"
+  ],
+  "monitors": [
+    {
+      "workspaces": [
+        {
+          "name": "I",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "II",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "III",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "IV",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "V",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "VI",
+          "layout": "VerticalStack"
+        }
+      ]
+    },
+    {
+      "workspaces": [
+        {
+          "name": "I",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "II",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "III",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "IV",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "V",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "VI",
+          "layout": "VerticalStack"
+        }
+      ]
+    }
+  ]
+}
