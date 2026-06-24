@@ -38,7 +38,7 @@ local PKGS = {
 	"numToStr/Comment.nvim",
 	"junegunn/fzf",
 	"junegunn/fzf.vim",
-	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
+	{ "nvim-treesitter/nvim-treesitter", branch="main", build = ":TSUpdate" },
 	{ "mg979/vim-visual-multi", branch = "master", init = VisualMultiInit() },
 	"khaveesh/vim-fish-syntax",
 	"folke/which-key.nvim",
@@ -48,7 +48,7 @@ local PKGS = {
 	{ "rrethy/vim-hexokinase", build = "make hexokinase" },
 	{ "williamboman/mason.nvim", build = MasonUpdate() },
 	"williamboman/mason-lspconfig.nvim",
-	"jose-elias-alvarez/null-ls.nvim",
+	"nvimtools/none-ls.nvim",
 	"neovim/nvim-lspconfig",
 	"ojroques/nvim-lspfuzzy",
 	"rafamadriz/friendly-snippets",
@@ -218,11 +218,7 @@ map("", "<C-V>", '"+p')
 
 -- lualine.nvim
 ---@diagnostic disable-next-line: undefined-field
-require("lualine").setup({
-	options = {
-		theme = "catppuccin",
-	},
-})
+require("lualine").setup()
 
 require("zen-mode").setup({
 	window = {
@@ -264,7 +260,7 @@ require("telescope").load_extension("fzf")
 
 -- Treesitter
 
-require("nvim-treesitter.configs").setup(
+require("nvim-treesitter.config").setup(
 	---@diagnostic disable: missing-fields
 	{
 		hightlight = {

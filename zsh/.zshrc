@@ -32,3 +32,5 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
 fi
 
 export PATH="$HOME/.local/bin:$PATH"
+
+. "$HOME/.local/bin/env"
