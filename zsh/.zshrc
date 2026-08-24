@@ -31,6 +31,6 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
     tmux attach -t 0 || tmux new
 fi
 
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/node/bin/:$HOME/.local/bin:$PATH"
 
 . "$HOME/.local/bin/env"

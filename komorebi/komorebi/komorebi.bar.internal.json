@@ -1,0 +1,61 @@
+{
+  "$schema": "https://komorebi-for-mac.lgug2z.com/komorebi.bar.0.1.0.schema.json",
+  "font_family": ".SF NS",
+  "font_size": 14,
+  "height": 30,
+  "position": {
+    "start": { "x": 0, "y": 35 }
+  },
+  "monitor": {
+    "index": 0,
+    "work_area_offset": { "left": 0, "top": 20, "right": 0, "bottom": 20 }
+  },
+  "transparency_alpha": 90,
+  "padding": { "horizontal": 14, "vertical": 0 },
+  "frame": {
+    "inner_margin": { "x": 10, "y": 2 }
+  },
+  "theme": {
+    "palette": "Custom",
+    "colours": {
+      "base_00": "#837D6F",
+      "base_01": "#2D353B",
+      "base_02": "#343F44",
+      "base_03": "#3D484D",
+      "base_04": "#4F585E",
+      "base_05": "#D3C6AA",
+      "base_06": "#E4D7B4",
+      "base_07": "#D3C6AA",
+      "base_08": "#E67E80",
+      "base_09": "#E69875",
+      "base_0a": "#DBBC7F",
+      "base_0b": "#A7C080",
+      "base_0c": "#83C092",
+      "base_0d": "#7FBBB3",
+      "base_0e": "#D699B6",
+      "base_0f": "#9DA9A0"
+    },
+    "accent": "Base0B",
+    "auto_select_fill": "Base0B",
+    "auto_select_text": "Base02"
+  },
+  "left_widgets": [],
+  "center_widgets": [
+    {
+      "Komorebi": {
+        "workspaces": {
+          "enable": true,
+          "hide_empty_workspaces": false
+        },
+        "layout": {
+          "enable": true
+        },
+        "focused_container": {
+          "enable": true,
+          "show_label": true
+        }
+      }
+    }
+  ],
+  "right_widgets": []
+}
